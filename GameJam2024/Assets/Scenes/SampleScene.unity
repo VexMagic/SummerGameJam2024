@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 823110364}
   - component: {fileID: 823110360}
   - component: {fileID: 823110365}
+  - component: {fileID: 823110366}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -312,7 +313,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -2081096090, guid: 32a4e9aa78d1a274e9981156ee5987c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -352,8 +353,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interaction: {fileID: 0}
   rBody: {fileID: 823110364}
+  animator: {fileID: 823110366}
   moveSpeed: 0.1
-  holdingOffset: {x: 0, y: 1}
+  holdingOffset: {x: 0, y: 1.5}
   holdingObject: {fileID: 0}
 --- !u!50 &823110364
 Rigidbody2D:
@@ -414,9 +416,30 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!95 &823110366
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823110359}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0fc5fd200395c4c47919f1ec31b7f0a1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1119305229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -657,6 +680,10 @@ PrefabInstance:
       objectReference: {fileID: 1660562755}
     - target: {fileID: 8956015382522577618, guid: 6894aad8e10022341b10365970bc5c3a, type: 3}
       propertyPath: hasInfinitSupply
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956015382522577618, guid: 6894aad8e10022341b10365970bc5c3a, type: 3}
+      propertyPath: hasInfiniteSupply
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public InteractionArea interaction;
 
     [SerializeField] private Rigidbody2D rBody;
+    [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Vector2 holdingOffset;
     [SerializeField] private GameObject holdingObject;
@@ -23,6 +24,13 @@ public class PlayerMovement : MonoBehaviour
     private void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
+        if (movement != Vector2.zero)
+        {
+            animator.SetFloat("X", movement.x);
+            animator.SetFloat("Y", movement.y);
+        }
+
+        animator.SetBool("IsWalking", movement != Vector2.zero);
     }
 
     private void OnInteract()
@@ -66,11 +74,13 @@ public class PlayerMovement : MonoBehaviour
             interaction.holdingObject.transform.localPosition = holdingOffset;
             holdingObject = interaction.holdingObject;
             interaction.holdingObject = null;
+            animator.SetBool("IsCarrying", true);
         }
         else
         {
             holdingObject = Instantiate(interaction.holdingObject, transform);
             holdingObject.transform.localPosition = holdingOffset;
+            animator.SetBool("IsCarrying", true);
         }
     }
 
@@ -82,12 +92,13 @@ public class PlayerMovement : MonoBehaviour
             holdingObject.transform.localPosition = Vector2.zero;
             interaction.holdingObject = holdingObject;
             holdingObject = null;
+            animator.SetBool("IsCarrying", false);
         }
         else
         {
-            Debug.Log("trash");
             Destroy(holdingObject);
             holdingObject = null;
+            animator.SetBool("IsCarrying", false);
         }
     }
 
