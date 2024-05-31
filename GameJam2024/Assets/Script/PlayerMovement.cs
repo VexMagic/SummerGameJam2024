@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (holdingObject != null && interaction.holdingObject != null)
             {
-                if (!interaction.hasInfinitSupply)
+                if (!interaction.hasInfiniteSupply)
                     SwapObject();
             }
             else if (interaction.holdingObject != null)
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GrabObject()
     {
-        if (!interaction.hasInfinitSupply)
+        if (!interaction.hasInfiniteSupply)
         {
             interaction.holdingObject.transform.parent = transform;
             interaction.holdingObject.transform.localPosition = holdingOffset;
