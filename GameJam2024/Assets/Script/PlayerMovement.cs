@@ -31,30 +31,63 @@ public class PlayerMovement : MonoBehaviour
         {
             if (holdingObject != null && interaction.holdingObject != null)
             {
-                interaction.holdingObject.transform.parent = transform;
-                interaction.holdingObject.transform.localPosition = holdingOffset;
-
-                holdingObject.transform.parent = interaction.transform;
-                holdingObject.transform.localPosition = Vector2.zero;
-
-                GameObject tempHoldingObject = interaction.holdingObject;
-                interaction.holdingObject = holdingObject;
-                holdingObject = tempHoldingObject;
+                if (!interaction.hasInfinitSupply)
+                    SwapObject();
             }
             else if (interaction.holdingObject != null)
             {
-                interaction.holdingObject.transform.parent = transform;
-                interaction.holdingObject.transform.localPosition = holdingOffset;
-                holdingObject = interaction.holdingObject;
-                interaction.holdingObject = null;
+                GrabObject();
             }
             else if (holdingObject != null)
             {
-                holdingObject.transform.parent = interaction.transform;
-                holdingObject.transform.localPosition = Vector2.zero;
-                interaction.holdingObject = holdingObject;
-                holdingObject = null;
+                PlaceObject();
             }
+        }
+    }
+
+    private void SwapObject()
+    {
+        interaction.holdingObject.transform.parent = transform;
+        interaction.holdingObject.transform.localPosition = holdingOffset;
+
+        holdingObject.transform.parent = interaction.transform;
+        holdingObject.transform.localPosition = Vector2.zero;
+
+        GameObject tempHoldingObject = interaction.holdingObject;
+        interaction.holdingObject = holdingObject;
+        holdingObject = tempHoldingObject;
+    }
+
+    private void GrabObject()
+    {
+        if (!interaction.hasInfinitSupply)
+        {
+            interaction.holdingObject.transform.parent = transform;
+            interaction.holdingObject.transform.localPosition = holdingOffset;
+            holdingObject = interaction.holdingObject;
+            interaction.holdingObject = null;
+        }
+        else
+        {
+            holdingObject = Instantiate(interaction.holdingObject, transform);
+            holdingObject.transform.localPosition = holdingOffset;
+        }
+    }
+
+    private void PlaceObject()
+    {
+        if (!interaction.isTrashCan)
+        {
+            holdingObject.transform.parent = interaction.transform;
+            holdingObject.transform.localPosition = Vector2.zero;
+            interaction.holdingObject = holdingObject;
+            holdingObject = null;
+        }
+        else
+        {
+            Debug.Log("trash");
+            Destroy(holdingObject);
+            holdingObject = null;
         }
     }
 

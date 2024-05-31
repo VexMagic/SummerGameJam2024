@@ -5,6 +5,8 @@ using UnityEngine;
 public class InteractionArea : MonoBehaviour
 {
     public GameObject holdingObject;
+    public bool hasInfinitSupply;
+    public bool isTrashCan;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
