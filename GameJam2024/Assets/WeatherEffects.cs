@@ -21,7 +21,6 @@ public class WeatherEffects : MonoBehaviour
     void Start()
     {
         currentEffect = WeatherEffect.Neutral;
-        player = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -59,8 +58,7 @@ public class WeatherEffects : MonoBehaviour
             case WeatherEffect.Windy:
                 if(player != null)
                 {
-                    player.AddForce(windDirection);
-                    
+                    player.AddForce(windDirection * windStrength);
                 }
                 
 
