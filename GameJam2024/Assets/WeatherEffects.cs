@@ -32,6 +32,7 @@ public class WeatherEffects : MonoBehaviour
         if (weatherLength < 0) 
         {
             RandomWeather();
+            //Generate a random weather type
         }
 
 
@@ -42,7 +43,8 @@ public class WeatherEffects : MonoBehaviour
         UpdateWeather();
     }
 
-
+    //Method for the switch-case of weather. The colors are just temporary to ensure they are switching as intended.
+    //Add more effects for the different weather types!
     void UpdateWeather()
     {
         
@@ -75,15 +77,17 @@ public class WeatherEffects : MonoBehaviour
 
     }
 
+    //Method for choosen a random weather.
     void RandomWeather()
     {
+        //If the weather type is not Neutral (aka, rainy, windy or mosquito) then it returns to neutral
         if(currentEffect != WeatherEffect.Neutral)
         {
             currentEffect = WeatherEffect.Neutral;
             weatherLength = 10f;
             
         }
-        else
+        else //If the weather is going from neutral then it chooses a random other type to switch to
         {
             int randomInt = UnityEngine.Random.Range(0, 2);
             if (randomInt == 0)
@@ -108,6 +112,7 @@ public class WeatherEffects : MonoBehaviour
         
     }
 
+    //Choose a random direction for the wind
     void RandomWindDirection()
     {
         int direction = UnityEngine.Random.Range(0, 1);
