@@ -11,6 +11,7 @@ public class WeatherEffects : MonoBehaviour
 
     public float weatherLength = 10f;
     //public GameObject playerObject;
+    //public Transform playerTransform;
     public SpriteRenderer playerSprite;
     public Rigidbody2D player;
     Vector2 windDirection = new Vector2(0, 0);
@@ -56,9 +57,11 @@ public class WeatherEffects : MonoBehaviour
 
                 break;
             case WeatherEffect.Windy:
+                playerSprite.color = Color.green;
                 if(player != null)
                 {
-                    player.AddForce(windDirection * windStrength);
+                    //playerTransform.x -= windDirection.x;
+                    //player.AddForce(windDirection * windStrength);
                 }
                 
 
@@ -95,7 +98,7 @@ public class WeatherEffects : MonoBehaviour
                 weatherLength = 10f;
                 
             }
-            else
+            else if(randomInt == 2)
             {
                 currentEffect = WeatherEffect.Rainy;
                 weatherLength = 10f;
@@ -125,9 +128,9 @@ public class WeatherEffects : MonoBehaviour
 
     //public IEnumerator CoRoutineTest()
     //{
-    //    yield return new WaitForSeconds();
+    //    yield return new WaitForSeconds(10);
     //}
 
-    
+
 }
 
