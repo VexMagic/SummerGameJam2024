@@ -7,12 +7,22 @@ public class WeatherEffects : MonoBehaviour
 {
     public enum WeatherEffect { Mosquitos, Neutral, Rainy, Windy};
 
-    public WeatherEffect currentEffect = WeatherEffect.Neutral;
+    public WeatherEffect currentEffect;
 
     public float weatherLength = 10f;
+    //public GameObject playerObject;
+    public SpriteRenderer playerSprite;
     public Rigidbody2D player;
     Vector2 windDirection = new Vector2(0, 0);
-    public float windStrength = 1.0f;
+    public float windStrength = 0.5f;
+
+    
+
+    void Start()
+    {
+        currentEffect = WeatherEffect.Neutral;
+        player = GetComponent<Rigidbody2D>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -40,21 +50,24 @@ public class WeatherEffects : MonoBehaviour
         switch(currentEffect)
         { 
             case WeatherEffect.Mosquitos:
-
+                playerSprite.color = Color.red;
                 break;
             case WeatherEffect.Rainy:
+                playerSprite.color = Color.blue;
 
                 break;
             case WeatherEffect.Windy:
                 if(player != null)
                 {
                     player.AddForce(windDirection);
+                    
                 }
                 
 
                 break;
             case WeatherEffect.Neutral:
 
+                playerSprite.color = Color.white;
                 break;
         }
 
@@ -67,10 +80,11 @@ public class WeatherEffects : MonoBehaviour
         {
             currentEffect = WeatherEffect.Neutral;
             weatherLength = 10f;
+            
         }
         else
         {
-            int randomInt = Random.Range(0, 2);
+            int randomInt = UnityEngine.Random.Range(0, 2);
             if (randomInt == 0)
             {
                 RandomWindDirection();
@@ -81,11 +95,13 @@ public class WeatherEffects : MonoBehaviour
             {
                 currentEffect = WeatherEffect.Mosquitos;
                 weatherLength = 10f;
+                
             }
             else
             {
                 currentEffect = WeatherEffect.Rainy;
                 weatherLength = 10f;
+                
             }
         }
         
@@ -93,24 +109,27 @@ public class WeatherEffects : MonoBehaviour
 
     void RandomWindDirection()
     {
-        if(player != null)
+        int direction = UnityEngine.Random.Range(0, 1);
+        //int plusMinus = UnityEngine.Random.Range(0, 1);
+
+        if (direction == 0)
         {
-            int direction = Random.Range(0, 1);
-            if(direction == 0)
-            {
-                windDirection = new Vector2();
-                //Push player in one direction
-            }
-            else
-            {
-                //Push player in other direction
-            }
+            windDirection = Vector2.left;
+
+            //Push player in one direction
+        }
+        else
+        {
+            windDirection = Vector2.right;
+            //Push player in other direction
         }
     }
 
-    IEnumerator CoRoutineTest()
-    {
-        yield return new WaitForSeconds();
-    }
+    //public IEnumerator CoRoutineTest()
+    //{
+    //    yield return new WaitForSeconds();
+    //}
+
+    
 }
 
