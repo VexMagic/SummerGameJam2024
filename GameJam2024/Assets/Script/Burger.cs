@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Burger : MonoBehaviour
 {
-    [SerializeField] List<Ingredient> Contents;
+    public bool hasBuns;
+    public List<IngredientType> StartIngredients;
+    public List<Ingredient> Contents;
     [SerializeField] SpriteRenderer TopBun;
     [SerializeField] SpriteRenderer BottomBun;
     public float Height;
@@ -16,8 +19,34 @@ public class Burger : MonoBehaviour
 
     private void Start()
     {
-        Height = TopBun.bounds.size.y + BottomBun.bounds.size.y;
+        TopBun.gameObject.SetActive(false);
+        BottomBun.gameObject.SetActive(false);
+        foreach (var item in StartIngredients)
+        {
+            AddIngredientByType(item);
+        }
+        if (hasBuns)
+            AddBuns();
         UpdateSprites();
+    }
+
+    public void AddIngredientByType(IngredientType type, bool isStartState = false)
+    {
+        switch (type)
+        {
+            case IngredientType.Patty:
+                AddIngredient(Patty, isStartState);
+                break;
+            case IngredientType.Ketchup:
+                AddIngredient(Ketchup, isStartState);
+                break;
+            case IngredientType.Onions:
+                AddIngredient(Onion, isStartState);
+                break;
+            case IngredientType.Lettuce:
+                AddIngredient(Lettuce, isStartState);
+                break;
+        }
     }
 
     public void Update()
@@ -37,26 +66,50 @@ public class Burger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            foreach (Ingredient ingredient in Contents)
-                Height = TopBun.bounds.size.y + BottomBun.bounds.size.y;
+            AddBuns();
         }
     }
 
-    public void AddIngredient(GameObject ingredient)
+    public void AddIngredient(GameObject ingredient, bool isStartState = false)
     {
         GameObject newIngredient = Instantiate(ingredient, transform);
         newIngredient.transform.localPosition = Vector3.zero;
-        Contents.Add(newIngredient.GetComponent<Ingredient>());
-        Height += newIngredient.GetComponent<Ingredient>().GetHeight();
+        if (!isStartState)
+            Contents.Add(newIngredient.GetComponent<Ingredient>());
+        UpdateSprites();
+    }
+
+    private void SetHeight()
+    {
+        if (hasBuns)
+        {
+            Height = TopBun.bounds.size.y + BottomBun.bounds.size.y;
+        }
+        foreach (Ingredient ingredient in Contents)
+            Height += ingredient.GetHeight();
+    }
+
+    public void AddBuns()
+    {
+        hasBuns = true;
+        TopBun.gameObject.SetActive(true);
+        BottomBun.gameObject.SetActive(true);
         UpdateSprites();
     }
 
     public void UpdateSprites()
     {
-        float offset = -Height / 2f;
+        SetHeight();
 
-        BottomBun.transform.localPosition = new(0, offset + BottomBun.bounds.extents.y);
-        offset += BottomBun.bounds.size.y;
+        float offset = /*-Height / 2f*/0;
+        //transform.localPosition = new Vector3(0, Height / 2f);
+
+        if (hasBuns)
+        {
+            BottomBun.transform.localPosition = new(0, offset + BottomBun.bounds.extents.y);
+            offset += BottomBun.bounds.size.y;
+
+        }
 
         foreach (Ingredient ingredient in Contents)
         {
@@ -64,7 +117,10 @@ public class Burger : MonoBehaviour
             offset += ingredient.GetHeight();
         }
 
-        TopBun.transform.localPosition = new(0, offset + TopBun.bounds.extents.y);
+        if (hasBuns)
+        {
+            TopBun.transform.localPosition = new(0, offset + TopBun.bounds.extents.y);
+        }
 
         //float currentHeight = 0;
 
@@ -78,15 +134,5 @@ public class Burger : MonoBehaviour
         //// Top Bun
         //currentHeight += TopBun.bounds.size.y;
         //TopBun.transform.localPosition = new(0, currentHeight);
-
-
-
-
-
-    }
-
-    public List<Ingredient> ingredients
-    {
-        get { return Contents; }
     }
 }

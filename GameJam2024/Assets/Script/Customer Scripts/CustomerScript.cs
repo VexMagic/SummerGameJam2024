@@ -143,7 +143,7 @@ public class CustomerScript : MonoBehaviour
     bool Compare(Burger order, Burger received)
     {
         Dictionary<Ingredient, int> orderCount = CountIngredients(customerContents);
-        Dictionary<Ingredient, int> receivedCount = CountIngredients(received.ingredients);
+        Dictionary<Ingredient, int> receivedCount = CountIngredients(received.Contents);
 
         foreach (Ingredient ingredient in orderCount.Keys)
         {
