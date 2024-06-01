@@ -7,6 +7,7 @@ public class CustomerScript : MonoBehaviour
     //ADD food reference for order
     public float customerTimer = 15f;
     bool receiveOrder = false;
+    
 
     public GameObject exampleBurger;
     private GameObject desiredBurger;
@@ -27,8 +28,9 @@ public class CustomerScript : MonoBehaviour
 
     void Start()
     {
-        int randomNum = Random.Range(0, 2);
+        int randomNum = 0;
         desiredBurger = Instantiate(exampleBurger, transform);
+        desiredBurger.SetActive(true);
         burger = desiredBurger.GetComponent<Burger>();
         CustomerOrder();
     }
@@ -50,65 +52,60 @@ public class CustomerScript : MonoBehaviour
 
     public void CustomerOrder()
     {
+        randomNum = Random.Range(0, 2);
         //Generate a random order it wants fulfilled
 
         //Burger generateBurger = new Burger();
 
-        if (randomNum == 0)
+        switch (randomNum)
         {
-            //Patty, Ketchup, Onion burger
-            burger.AddIngredient(Patty);
-            InternalOrderCheck(Patty);
-            burger.UpdateSprites();
+            case 0:
+                //Patty, Ketchup, Onion burger
+                burger.AddIngredient(Patty);
+                InternalOrderCheck(Patty);
+                burger.UpdateSprites();
 
-            burger.AddIngredient(Ketchup);
-            InternalOrderCheck(Ketchup);
-            burger.UpdateSprites();
+                burger.AddIngredient(Ketchup);
+                InternalOrderCheck(Ketchup);
+                burger.UpdateSprites();
 
-            burger.AddIngredient(Onion);
-            InternalOrderCheck(Onion);
-            burger.UpdateSprites();
+                burger.AddIngredient(Onion);
+                InternalOrderCheck(Onion);
+                burger.UpdateSprites();
+                break;
+            case 1:
+                //Patty, Ketchup, Onion, Lettuce burger
+                burger.AddIngredient(Patty);
+                InternalOrderCheck(Patty);
+                burger.UpdateSprites();
 
+                burger.AddIngredient(Ketchup);
+                InternalOrderCheck(Ketchup);
+                burger.UpdateSprites();
 
+                burger.AddIngredient(Onion);
+                InternalOrderCheck(Onion);
+                burger.UpdateSprites();
+
+                burger.AddIngredient(Lettuce);
+                InternalOrderCheck(Lettuce);
+                burger.UpdateSprites();
+                break;
+            case 2:
+                //Double-patty burger with lettuce
+                burger.AddIngredient(Patty);
+                InternalOrderCheck(Patty);
+                burger.UpdateSprites();
+
+                burger.AddIngredient(Patty);
+                InternalOrderCheck(Patty);
+                burger.UpdateSprites();
+
+                burger.AddIngredient(Lettuce);
+                InternalOrderCheck(Lettuce);
+                burger.UpdateSprites();
+                break;
         }
-        else if (randomNum == 1)
-        {
-            //Patty, Ketchup, Onion, Lettuce burger
-
-            burger.AddIngredient(Patty);
-            InternalOrderCheck(Patty);
-            burger.UpdateSprites();
-
-            burger.AddIngredient(Ketchup);
-            InternalOrderCheck(Ketchup);
-            burger.UpdateSprites();
-
-            burger.AddIngredient(Onion);
-            InternalOrderCheck(Onion);
-            burger.UpdateSprites();
-
-            burger.AddIngredient(Lettuce);
-            InternalOrderCheck(Lettuce);
-            burger.UpdateSprites();
-
-        }
-        else if (randomNum == 2)
-        {
-            //Double-patty burger with lettuce
-            burger.AddIngredient(Patty);
-            InternalOrderCheck(Patty);
-            burger.UpdateSprites();
-
-            burger.AddIngredient(Patty);
-            InternalOrderCheck(Patty);
-            burger.UpdateSprites();
-
-            burger.AddIngredient(Lettuce);
-            InternalOrderCheck(Lettuce);
-            burger.UpdateSprites();
-        }
-
-
     }
 
     void InternalOrderCheck(GameObject ingredient)

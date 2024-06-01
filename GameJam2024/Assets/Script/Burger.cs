@@ -58,13 +58,13 @@ public class Burger : MonoBehaviour
         BottomBun.transform.localPosition = new(0, offset + BottomBun.bounds.extents.y);
         offset += BottomBun.bounds.size.y;
 
-        TopBun.transform.localPosition = new(0, (Height / 2f) - TopBun.bounds.extents.y);
-
         foreach (Ingredient ingredient in Contents)
         {
             ingredient.transform.localPosition = new(0, offset + ingredient.GetHeight() / 2f);
             offset += ingredient.GetHeight();
         }
+
+        TopBun.transform.localPosition = new(0, offset + TopBun.bounds.extents.y);
 
         //float currentHeight = 0;
 
