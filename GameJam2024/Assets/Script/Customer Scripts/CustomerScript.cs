@@ -124,20 +124,7 @@ public class CustomerScript : MonoBehaviour
 
     public void ReceiveOrder(Burger otherBurger)
     {
-        //if(Compare(burger, otherBurger))
-        //{
-            
-            
-        //    if(space != null)
-        //    {
-        //        space.CustomerLeaves();
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
-        //    }
-        //    Destroy(gameObject);
-        //}
+        
 
         if (Compare(burger, otherBurger))
         {
