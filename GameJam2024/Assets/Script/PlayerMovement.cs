@@ -7,13 +7,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
 
-    public InteractionArea interaction;
+    public List<InteractionArea> interactions;
 
     [SerializeField] private Rigidbody2D rBody;
     [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private Vector2 holdingOffset;
-    [SerializeField] private GameObject holdingObject;
+    public Vector2 holdingOffset;
+    public Burger holdingObject;
     Vector2 movement;
 
     private void Awake()
@@ -35,71 +35,53 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnInteract()
     {
+        InteractionArea interaction = GetClosestInteraction();
+
         if (interaction != null) 
         {
             if (holdingObject != null && interaction.holdingObject != null)
             {
-                if (!interaction.hasInfiniteSupply)
-                    SwapObject();
+                if (holdingObject.hasBuns && interaction.holdingObject.hasBuns)
+                {
+                    interaction.SwapBurger();
+                }
+                else
+                {
+                    interaction.CombineBurger();
+                }
             }
             else if (interaction.holdingObject != null)
             {
-                GrabObject();
+                if (interaction.GrabBurger())
+                {
+                    animator.SetBool("IsCarrying", true);
+                }
             }
             else if (holdingObject != null)
             {
-                PlaceObject();
+                if (interaction.PlaceBurger())
+                {
+                    holdingObject = null;
+                    animator.SetBool("IsCarrying", false);
+                }
             }
         }
     }
 
-    private void SwapObject()
+    private InteractionArea GetClosestInteraction()
     {
-        interaction.holdingObject.transform.parent = transform;
-        interaction.holdingObject.transform.localPosition = holdingOffset;
-
-        holdingObject.transform.parent = interaction.transform;
-        holdingObject.transform.localPosition = Vector2.zero;
-
-        GameObject tempHoldingObject = interaction.holdingObject;
-        interaction.holdingObject = holdingObject;
-        holdingObject = tempHoldingObject;
-    }
-
-    private void GrabObject()
-    {
-        if (!interaction.hasInfiniteSupply)
+        InteractionArea closest = interactions[0];
+        float distance = Vector2.Distance(closest.transform.position, transform.position);
+        for (int i = 1; i < interactions.Count; i++)
         {
-            interaction.holdingObject.transform.parent = transform;
-            interaction.holdingObject.transform.localPosition = holdingOffset;
-            holdingObject = interaction.holdingObject;
-            interaction.holdingObject = null;
-            animator.SetBool("IsCarrying", true);
+            float tempDistance = Vector2.Distance(interactions[i].transform.position, transform.position);
+            if (tempDistance < distance)
+            {
+                distance = tempDistance;
+                closest = interactions[i];
+            }
         }
-        else
-        {
-            holdingObject = Instantiate(interaction.holdingObject, transform);
-            holdingObject.transform.localPosition = holdingOffset;
-            animator.SetBool("IsCarrying", true);
-        }
-    }
-
-    private void PlaceObject()
-    {
-        if (!interaction.isTrashCan)
-        {
-            holdingObject.transform.parent = interaction.transform;
-            holdingObject.transform.localPosition = Vector2.zero;
-            interaction.holdingObject = holdingObject;
-            holdingObject = null;
-            animator.SetBool("IsCarrying", false);
-        }
-        else
-        {
-            Destroy(holdingObject);
-            holdingObject = null;
-            animator.SetBool("IsCarrying", false);
-        }
+        return closest;
     }
 
     private void FixedUpdate()

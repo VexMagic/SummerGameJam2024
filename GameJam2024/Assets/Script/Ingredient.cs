@@ -6,10 +6,11 @@ public class Ingredient : MonoBehaviour
 {
     public IngredientType Type;
     public SpriteRenderer IngredientSprite;
+    [SerializeField] private float size;
 
     void Awake()
     {
-        Initalize();
+        //Initalize();
     }
 
     protected virtual void Initalize()
@@ -19,7 +20,12 @@ public class Ingredient : MonoBehaviour
 
     public float GetHeight()
     {
-        return IngredientSprite.bounds.size.y;
+        return size * 0.125f;
+    }
+
+    protected virtual void Update()
+    {
+        IngredientSprite.sortingOrder = (int)(transform.parent.transform.position.y * -10);
     }
 }
 
