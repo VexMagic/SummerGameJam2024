@@ -13,17 +13,21 @@ public class WeatherEffects : MonoBehaviour
     public float weatherLength = 10f;
     //public GameObject playerObject;
     //public Transform playerTransform;
-    public SpriteRenderer playerSprite;
+    //public SpriteRenderer playerSprite;
     public Rigidbody2D player;
     Vector2 windDirection = new Vector2(0, 0);
-    public float windStrength = 0.5f;
+    public float windStrength = 2.5f;
     private float resetReference;
-    
+
+    public GameObject particleSystem;
+    public Transform particleTransform;
 
     void Start()
     {
         currentEffect = WeatherEffect.Neutral;
         resetReference = 10f;
+
+        
     }
 
     // Update is called once per frame
@@ -54,25 +58,25 @@ public class WeatherEffects : MonoBehaviour
         switch(currentEffect)
         { 
             case WeatherEffect.Mosquitos:
-                playerSprite.color = Color.red;
+                //playerSprite.color = Color.red;
                 break;
             case WeatherEffect.Rainy:
-                playerSprite.color = Color.blue;
+                //playerSprite.color = Color.blue;
 
                 break;
             case WeatherEffect.Windy:
-                playerSprite.color = Color.green;
+                //playerSprite.color = Color.green;
                 if(player != null)
                 {
                     //playerTransform.x -= windDirection.x;
-                    //player.AddForce(windDirection * windStrength);
+                    player.AddForce(windDirection * windStrength);
                 }
                 
 
                 break;
             case WeatherEffect.Neutral:
 
-                playerSprite.color = Color.white;
+                //playerSprite.color = Color.white;
                 break;
         }
 
@@ -85,16 +89,22 @@ public class WeatherEffects : MonoBehaviour
         //If the weather type is not Neutral (aka, rainy, windy or mosquito) then it returns to neutral
         if(currentEffect != WeatherEffect.Neutral)
         {
+            if(particleSystem == true)
+            {
+                particleSystem.SetActive(false);
+            }
+            
             currentEffect = WeatherEffect.Neutral;
             weatherLength = 10f;
             
         }
         else //If the weather is going from neutral then it chooses a random other type to switch to
         {
-            int randomInt = UnityEngine.Random.Range(0, 2);
+            int randomInt = UnityEngine.Random.Range(0, 3);
             if (randomInt == 0)
             {
                 RandomWindDirection();
+                particleSystem.SetActive(true);
                 currentEffect = WeatherEffect.Windy;
                 weatherLength = resetReference;
             }
