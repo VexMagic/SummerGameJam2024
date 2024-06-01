@@ -355,8 +355,9 @@ MonoBehaviour:
   rBody: {fileID: 823110364}
   animator: {fileID: 823110366}
   moveSpeed: 0.1
-  holdingOffset: {x: 0, y: 1.5}
+  holdingOffset: {x: 0, y: 1}
   holdingObject: {fileID: 0}
+  burgerPrefab: {fileID: 7746916323107562048, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
 --- !u!50 &823110364
 Rigidbody2D:
   serializedVersion: 4
@@ -500,6 +501,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3224326534248056482, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+      propertyPath: StartIngredients.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6010988364999169230, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -516,6 +521,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Holding Object
       objectReference: {fileID: 0}
+    - target: {fileID: 7854749696741138272, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+      propertyPath: Contents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7854749696741138272, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+      propertyPath: Contents.Array.data[0]
+      value: 
+      objectReference: {fileID: -2336950729869898009, guid: ffa8d60be4891de4d87014b60d919e9f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -526,11 +539,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1549173464845825209, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
   m_PrefabInstance: {fileID: 1119305229}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1660562755 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7746916323107562048, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+--- !u!114 &1660562756 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3224326534248056482, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
   m_PrefabInstance: {fileID: 1119305229}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1009248bccef41d41a00888fdb5e2bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1691173290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -591,6 +610,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3224326534248056482, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+      propertyPath: hasBuns
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6010988364999169230, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
       propertyPath: m_Color.b
       value: 0.059348106
@@ -612,16 +635,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
---- !u!1 &1691173291 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7746916323107562048, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
-  m_PrefabInstance: {fileID: 1691173290}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1691173292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1549173464845825209, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
   m_PrefabInstance: {fileID: 1691173290}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1691173293 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3224326534248056482, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+  m_PrefabInstance: {fileID: 1691173290}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1009248bccef41d41a00888fdb5e2bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1741807199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -677,7 +706,7 @@ PrefabInstance:
     - target: {fileID: 8956015382522577618, guid: 6894aad8e10022341b10365970bc5c3a, type: 3}
       propertyPath: holdingObject
       value: 
-      objectReference: {fileID: 1660562755}
+      objectReference: {fileID: 1660562756}
     - target: {fileID: 8956015382522577618, guid: 6894aad8e10022341b10365970bc5c3a, type: 3}
       propertyPath: hasInfinitSupply
       value: 1
@@ -815,7 +844,7 @@ PrefabInstance:
     - target: {fileID: 8956015382522577618, guid: 6894aad8e10022341b10365970bc5c3a, type: 3}
       propertyPath: holdingObject
       value: 
-      objectReference: {fileID: 1691173291}
+      objectReference: {fileID: 1691173293}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

@@ -6,6 +6,7 @@ public class Ingredient : MonoBehaviour
 {
     public IngredientType Type;
     public SpriteRenderer IngredientSprite;
+    [SerializeField] private float size;
 
     void Awake()
     {
@@ -19,7 +20,7 @@ public class Ingredient : MonoBehaviour
 
     public float GetHeight()
     {
-        return IngredientSprite.bounds.size.y;
+        return size * 0.125f;
     }
 }
 

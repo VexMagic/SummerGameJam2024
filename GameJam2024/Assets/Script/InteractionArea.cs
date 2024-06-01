@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractionArea : MonoBehaviour
 {
-    public GameObject holdingObject;
+    public Burger holdingObject;
     public bool hasInfiniteSupply;
     public bool isTrashCan;
 
