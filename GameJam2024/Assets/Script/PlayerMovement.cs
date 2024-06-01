@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
 
-    public InteractionArea interaction;
+    public List<InteractionArea> interactions;
 
     [SerializeField] private Rigidbody2D rBody;
     [SerializeField] private Animator animator;
@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnInteract()
     {
+        InteractionArea interaction = GetClosestInteraction();
+
         if (interaction != null) 
         {
             if (holdingObject != null && interaction.holdingObject != null)
@@ -66,86 +68,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void CombineObject()
-    //{
-    //    Debug.Log("Combine");
-    //    foreach (var item in interaction.holdingObject.Contents)
-    //    {
-    //        holdingObject.AddIngredientByType(item.Type);
-    //    }
-
-    //    if (interaction.holdingObject.hasBuns)
-    //        holdingObject.AddBuns();
-
-    //    if (!interaction.hasInfiniteSupply)
-    //    {
-    //        Destroy(interaction.holdingObject.gameObject);
-    //        interaction.holdingObject = null;
-    //    }
-    //}
-
-    //private void SwapObject()
-    //{
-    //    Debug.Log("Swap");
-    //    interaction.holdingObject.transform.parent = transform;
-    //    interaction.holdingObject.transform.localPosition = holdingOffset;
-
-    //    holdingObject.transform.parent = interaction.transform;
-    //    holdingObject.transform.localPosition = interaction.holdingOffset;
-
-    //    Burger tempHoldingObject = interaction.holdingObject;
-    //    interaction.holdingObject = holdingObject;
-    //    holdingObject = tempHoldingObject;
-    //}
-
-    //private void GrabObject()
-    //{
-    //    Debug.Log("Grab");
-    //    if (!interaction.hasInfiniteSupply)
-    //    {
-    //        interaction.holdingObject.transform.parent = transform;
-    //        interaction.holdingObject.transform.localPosition = holdingOffset;
-    //        holdingObject = interaction.holdingObject;
-    //        interaction.holdingObject = null;
-    //        animator.SetBool("IsCarrying", true);
-    //    }
-    //    else
-    //    {
-    //        GameObject tempObject = Instantiate(burgerPrefab, transform);
-    //        holdingObject = tempObject.GetComponent<Burger>();
-    //        foreach (var item in interaction.holdingObject.Contents)
-    //        {
-    //            holdingObject.AddIngredientByType(item.Type);
-    //        }
-    //        if (interaction.holdingObject.hasBuns)
-    //        {
-    //            holdingObject.AddBuns();
-    //        }
-    //        holdingObject.transform.localPosition = holdingObject.transform.localPosition + (Vector3)holdingOffset;
-    //        animator.SetBool("IsCarrying", true);
-    //    }
-    //}
-
-    //private void PlaceObject()
-    //{
-    //    Debug.Log("Place");
-    //    if (!interaction.isTrashCan)
-    //    {
-    //        holdingObject.transform.parent = interaction.transform;
-    //        holdingObject.transform.localPosition = interaction.holdingOffset;
-    //        interaction.holdingObject = holdingObject;
-    //        holdingObject = null;
-    //        animator.SetBool("IsCarrying", false);
-    //    }
-    //    else
-    //    {
-    //        Destroy(holdingObject.gameObject);
-    //        holdingObject = null;
-    //        animator.SetBool("IsCarrying", false);
-    //        if (interaction.animator != null)
-    //            interaction.animator.SetTrigger("Interact");
-    //    }
-    //}
+    private InteractionArea GetClosestInteraction()
+    {
+        InteractionArea closest = interactions[0];
+        float distance = Vector2.Distance(closest.transform.position, transform.position);
+        for (int i = 1; i < interactions.Count; i++)
+        {
+            float tempDistance = Vector2.Distance(interactions[i].transform.position, transform.position);
+            if (tempDistance < distance)
+            {
+                distance = tempDistance;
+                closest = interactions[i];
+            }
+        }
+        return closest;
+    }
 
     private void FixedUpdate()
     {

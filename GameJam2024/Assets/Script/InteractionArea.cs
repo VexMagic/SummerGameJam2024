@@ -19,15 +19,15 @@ public class InteractionArea : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerMovement.instance.interaction = this;
+            PlayerMovement.instance.interactions.Add(this);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && PlayerMovement.instance.interaction == this)
+        if (collision.gameObject.tag == "Player" && PlayerMovement.instance.interactions.Contains(this))
         {
-            PlayerMovement.instance.interaction = null;
+            PlayerMovement.instance.interactions.Remove(this);
         }
     }
 
@@ -45,13 +45,7 @@ public class InteractionArea : MonoBehaviour
         holdingObject.transform.parent = PlayerMovement.instance.transform;
         holdingObject.transform.localPosition = PlayerMovement.instance.holdingOffset;
         PlayerMovement.instance.holdingObject = holdingObject;
-        //Destroy(holdingObject.gameObject);
         holdingObject = null;
-
-        //interaction.holdingObject.transform.parent = transform;
-        //interaction.holdingObject.transform.localPosition = holdingOffset;
-        //holdingObject = interaction.holdingObject;
-        //interaction.holdingObject = null;
 
         return true;
     }
@@ -75,7 +69,7 @@ public class InteractionArea : MonoBehaviour
     {
         foreach (var item in holdingObject.Contents)
         {
-            PlayerMovement.instance.holdingObject.AddIngredientByType(item.Type);
+            PlayerMovement.instance.holdingObject.AddIngredient(item.gameObject);
         }
 
         if (holdingObject.hasBuns)

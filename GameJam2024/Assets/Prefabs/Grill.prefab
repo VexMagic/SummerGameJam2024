@@ -137,6 +137,7 @@ MonoBehaviour:
   holdingObject: {fileID: 0}
   holdingOffset: {x: 0, y: 0.5}
   burgerPrefab: {fileID: 7746916323107562048, guid: 7e04042561feaf54f9e2217229fb94d2, type: 3}
+  secondsToGrill: 4
 --- !u!61 &6442886208971578575
 BoxCollider2D:
   m_ObjectHideFlags: 0
