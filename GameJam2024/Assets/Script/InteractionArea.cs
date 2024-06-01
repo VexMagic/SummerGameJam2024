@@ -5,8 +5,15 @@ using UnityEngine;
 public class InteractionArea : MonoBehaviour
 {
     public Burger holdingObject;
+    public Animator animator;
+    public Vector2 holdingOffset;
     public bool hasInfiniteSupply;
     public bool isTrashCan;
+
+    private void Start()
+    {
+        holdingObject.transform.localPosition = holdingOffset;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

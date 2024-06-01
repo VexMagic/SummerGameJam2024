@@ -10,7 +10,7 @@ public class Ingredient : MonoBehaviour
 
     void Awake()
     {
-        Initalize();
+        //Initalize();
     }
 
     protected virtual void Initalize()
@@ -21,6 +21,11 @@ public class Ingredient : MonoBehaviour
     public float GetHeight()
     {
         return size * 0.125f;
+    }
+
+    protected virtual void Update()
+    {
+        IngredientSprite.sortingOrder = (int)(transform.parent.transform.position.y * -10);
     }
 }
 

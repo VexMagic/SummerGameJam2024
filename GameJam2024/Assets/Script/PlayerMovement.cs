@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         interaction.holdingObject.transform.localPosition = holdingOffset;
 
         holdingObject.transform.parent = interaction.transform;
-        holdingObject.transform.localPosition = Vector2.zero;
+        holdingObject.transform.localPosition = interaction.holdingOffset;
 
         Burger tempHoldingObject = interaction.holdingObject;
         interaction.holdingObject = holdingObject;
@@ -111,6 +111,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 holdingObject.AddIngredientByType(item.Type);
             }
+            if (interaction.holdingObject.hasBuns)
+            {
+                holdingObject.AddBuns();
+            }
             holdingObject.transform.localPosition = holdingObject.transform.localPosition + (Vector3)holdingOffset;
             animator.SetBool("IsCarrying", true);
         }
@@ -122,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         if (!interaction.isTrashCan)
         {
             holdingObject.transform.parent = interaction.transform;
-            holdingObject.transform.localPosition = Vector2.zero;
+            holdingObject.transform.localPosition = interaction.holdingOffset;
             interaction.holdingObject = holdingObject;
             holdingObject = null;
             animator.SetBool("IsCarrying", false);
@@ -132,6 +136,8 @@ public class PlayerMovement : MonoBehaviour
             Destroy(holdingObject.gameObject);
             holdingObject = null;
             animator.SetBool("IsCarrying", false);
+            if (interaction.animator != null)
+                interaction.animator.SetTrigger("Interact");
         }
     }
 

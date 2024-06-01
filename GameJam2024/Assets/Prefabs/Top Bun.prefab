@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1492441642706129229}
   - component: {fileID: 2540194617021028026}
+  - component: {fileID: -3355846367937583081}
   m_Layer: 0
   m_Name: Top Bun
   m_TagString: Untagged
@@ -70,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -483440623
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 5954588563943610609, guid: 829725a9fe4d7e64eb1d6d35ea2b732a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -83,4 +84,17 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
+--- !u!114 &-3355846367937583081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138525959901206071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4691c2eb75241f4f9d0ac3d81bed814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IngredientSprite: {fileID: 2540194617021028026}
