@@ -51,7 +51,7 @@ public class Burger : MonoBehaviour
         UpdateSprites();
     }
 
-    private void UpdateSprites()
+    public void UpdateSprites()
     {
         float offset = -Height / 2f;
 

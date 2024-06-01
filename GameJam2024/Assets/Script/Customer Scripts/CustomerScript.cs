@@ -8,8 +8,12 @@ public class CustomerScript : MonoBehaviour
     public float customerTimer = 15f;
     bool receiveOrder = false;
 
-    public Burger desiredBurger;
+    public GameObject exampleBurger;
+    private GameObject desiredBurger;
     private int randomNum;
+    private Burger burger;
+
+    public Transform transform;
 
     [SerializeField] List<Ingredient> customerContents;
     [SerializeField] SpriteRenderer TopBun;
@@ -24,7 +28,8 @@ public class CustomerScript : MonoBehaviour
     void Start()
     {
         int randomNum = Random.Range(0, 2);
-        desiredBurger = GetComponent<Burger>();
+        desiredBurger = Instantiate(exampleBurger, transform);
+        burger = desiredBurger.GetComponent<Burger>();
         CustomerOrder();
     }
 
@@ -47,49 +52,62 @@ public class CustomerScript : MonoBehaviour
     {
         //Generate a random order it wants fulfilled
 
-        Burger generateBurger = new Burger();
+        //Burger generateBurger = new Burger();
 
-        if(generateBurger != null)
+        if (randomNum == 0)
         {
-            if (randomNum == 0)
-            {
-                //Patty, Ketchup, Onion burger
-                generateBurger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                generateBurger.AddIngredient(Ketchup);
-                InternalOrderCheck(Ketchup);
-                generateBurger.AddIngredient(Onion);
-                InternalOrderCheck(Onion);
+            //Patty, Ketchup, Onion burger
+            burger.AddIngredient(Patty);
+            InternalOrderCheck(Patty);
+            burger.UpdateSprites();
 
-                desiredBurger = generateBurger;
+            burger.AddIngredient(Ketchup);
+            InternalOrderCheck(Ketchup);
+            burger.UpdateSprites();
 
-            }
-            else if (randomNum == 1)
-            {
-                //Patty, Ketchup, Onion, Lettuce burger
-                generateBurger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                generateBurger.AddIngredient(Ketchup);
-                InternalOrderCheck(Ketchup);
-                generateBurger.AddIngredient(Onion);
-                InternalOrderCheck(Onion);
-                generateBurger.AddIngredient(Lettuce);
-                InternalOrderCheck(Lettuce);
+            burger.AddIngredient(Onion);
+            InternalOrderCheck(Onion);
+            burger.UpdateSprites();
 
-                desiredBurger = generateBurger;
-            }
-            else if (randomNum == 2)
-            {
-                //Double-patty burger with lettuce
-                generateBurger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                generateBurger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                generateBurger.AddIngredient(Lettuce);
-                InternalOrderCheck(Lettuce);
-            }
+
         }
-        
+        else if (randomNum == 1)
+        {
+            //Patty, Ketchup, Onion, Lettuce burger
+
+            burger.AddIngredient(Patty);
+            InternalOrderCheck(Patty);
+            burger.UpdateSprites();
+
+            burger.AddIngredient(Ketchup);
+            InternalOrderCheck(Ketchup);
+            burger.UpdateSprites();
+
+            burger.AddIngredient(Onion);
+            InternalOrderCheck(Onion);
+            burger.UpdateSprites();
+
+            burger.AddIngredient(Lettuce);
+            InternalOrderCheck(Lettuce);
+            burger.UpdateSprites();
+
+        }
+        else if (randomNum == 2)
+        {
+            //Double-patty burger with lettuce
+            burger.AddIngredient(Patty);
+            InternalOrderCheck(Patty);
+            burger.UpdateSprites();
+
+            burger.AddIngredient(Patty);
+            InternalOrderCheck(Patty);
+            burger.UpdateSprites();
+
+            burger.AddIngredient(Lettuce);
+            InternalOrderCheck(Lettuce);
+            burger.UpdateSprites();
+        }
+
 
     }
 
@@ -101,9 +119,9 @@ public class CustomerScript : MonoBehaviour
 
     
 
-    public void ReceiveOrder(Burger burger)
+    public void ReceiveOrder(Burger otherBurger)
     {
-        if(Compare(desiredBurger, burger))
+        if(Compare(burger, otherBurger))
         {
             //points?
             Destroy(gameObject);
