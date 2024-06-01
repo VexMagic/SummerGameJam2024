@@ -15,6 +15,7 @@ public class CustomerScript : MonoBehaviour
     private Burger burger;
 
     public Transform transform;
+    public CustomerSpace space;
 
     [SerializeField] List<Ingredient> customerContents;
     [SerializeField] SpriteRenderer TopBun;
@@ -28,6 +29,7 @@ public class CustomerScript : MonoBehaviour
 
     void Start()
     {
+        customerTimer = 15f;
         int randomNum = 0;
         desiredBurger = Instantiate(exampleBurger, transform);
         desiredBurger.SetActive(true);
@@ -43,7 +45,12 @@ public class CustomerScript : MonoBehaviour
 
         if (customerTimer < 0 )
         {
-            Destroy(gameObject);
+            if (space != null)
+            {
+                space.CustomerLeaves();
+                Destroy(gameObject);
+            }
+            
             //lose points?
         }
     }
@@ -121,6 +128,7 @@ public class CustomerScript : MonoBehaviour
         if(Compare(burger, otherBurger))
         {
             //points?
+            space.CustomerLeaves();
             Destroy(gameObject);
         }
     }
