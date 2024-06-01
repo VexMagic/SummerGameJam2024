@@ -35,6 +35,11 @@ public class CustomerScript : MonoBehaviour
         desiredBurger.SetActive(true);
         burger = desiredBurger.GetComponent<Burger>();
         CustomerOrder();
+
+        if(space == null)
+        {
+            Debug.LogError("NO CUSTOMER SPACE AT START");
+        }
     }
 
 
@@ -46,9 +51,17 @@ public class CustomerScript : MonoBehaviour
 
         if (customerTimer < 0)
         {
-            space.CustomerLeaves();
+            if (space != null) 
+            {
+                space.CustomerLeaves();
+            }
+            else
+            {
+                Debug.LogError("NO CUSTOMER SPACE WHEN RUNNING OUT OF TIME");
+            }
             Destroy(gameObject);
         }
+        
     }
 
 
@@ -101,7 +114,16 @@ public class CustomerScript : MonoBehaviour
         if(Compare(burger, otherBurger))
         {
             //points?
-            space.CustomerLeaves();
+            
+            
+            if(space != null)
+            {
+                space.CustomerLeaves();
+            }
+            else
+            {
+                Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
+            }
             Destroy(gameObject);
         }
     }
