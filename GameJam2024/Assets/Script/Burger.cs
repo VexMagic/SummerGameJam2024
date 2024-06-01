@@ -42,7 +42,7 @@ public class Burger : MonoBehaviour
         }
     }
 
-    void AddIngredient(GameObject ingredient)
+    public void AddIngredient(GameObject ingredient)
     {
         GameObject newIngredient = Instantiate(ingredient, transform);
         newIngredient.transform.localPosition = Vector3.zero;
