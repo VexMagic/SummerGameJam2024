@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,12 @@ public class Patty : Ingredient
     {
         Type = IngredientType.Patty;
         base.Initalize();
+    }
+
+    public void Cook(float cookingRate)
+    {
+        CookedProcentage += cookingRate;
+        CookedProcentage = Mathf.Clamp(CookedProcentage, 0f, 2f);
     }
 }
 

@@ -37,14 +37,14 @@ public class Burger : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            foreach(Ingredient ingredient in Contents)
-            Height = TopBun.bounds.size.y + BottomBun.bounds.size.y;
+            foreach (Ingredient ingredient in Contents)
+                Height = TopBun.bounds.size.y + BottomBun.bounds.size.y;
         }
     }
 
     void AddIngredient(GameObject ingredient)
     {
-        GameObject newIngredient = Instantiate(ingredient,transform);
+        GameObject newIngredient = Instantiate(ingredient, transform);
         newIngredient.transform.localPosition = Vector3.zero;
         Contents.Add(newIngredient.GetComponent<Ingredient>());
         Height += newIngredient.GetComponent<Ingredient>().GetHeight();
@@ -53,19 +53,30 @@ public class Burger : MonoBehaviour
 
     private void UpdateSprites()
     {
-        //float offset = -Height / 2f;
+        float offset = -Height / 2f;
 
-        float currentHeight = 0;
+        BottomBun.transform.localPosition = new(0, offset + BottomBun.bounds.extents.y);
+        offset += BottomBun.bounds.size.y;
 
-        // Ingredients
+        TopBun.transform.localPosition = new(0, (Height / 2f) - TopBun.bounds.extents.y);
+
         foreach (Ingredient ingredient in Contents)
         {
-            currentHeight += ingredient.GetHeight();
-            ingredient.transform.localPosition = new(0, currentHeight+ingredient.Offset);
+            ingredient.transform.localPosition = new(0, offset + ingredient.GetHeight() / 2f);
+            offset += ingredient.GetHeight();
         }
 
-        // Top Bun
-        currentHeight += TopBun.bounds.size.y;
-        TopBun.transform.localPosition = new(0, currentHeight);
+        //float currentHeight = 0;
+
+        //// Ingredients
+        //foreach (Ingredient ingredient in Contents)
+        //{
+        //    currentHeight += ingredient.GetHeight();
+        //    ingredient.transform.localPosition = new(0, currentHeight );
+        //}
+
+        //// Top Bun
+        //currentHeight += TopBun.bounds.size.y;
+        //TopBun.transform.localPosition = new(0, currentHeight);
     }
 }

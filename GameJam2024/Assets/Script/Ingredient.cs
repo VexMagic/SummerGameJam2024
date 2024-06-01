@@ -6,7 +6,6 @@ public class Ingredient : MonoBehaviour
 {
     public IngredientType Type;
     public SpriteRenderer IngredientSprite;
-    public float Offset;
 
     void Awake()
     {
