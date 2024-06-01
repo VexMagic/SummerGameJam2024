@@ -14,10 +14,10 @@ public class CustomerScript : MonoBehaviour
     private int randomNum;
     private Burger burger;
 
-    public Transform transform;
+    //public Transform transform;
     public CustomerSpace space;
 
-    [SerializeField] List<Ingredient> customerContents;
+    [SerializeField] List<Ingredient> customerContents = new List<Ingredient>();
     [SerializeField] SpriteRenderer TopBun;
     [SerializeField] SpriteRenderer BottomBun;
     public float Height;
@@ -29,8 +29,8 @@ public class CustomerScript : MonoBehaviour
 
     void Start()
     {
+        
         customerTimer = 15f;
-        int randomNum = 0;
         desiredBurger = Instantiate(exampleBurger, transform);
         desiredBurger.SetActive(true);
         burger = desiredBurger.GetComponent<Burger>();
@@ -41,17 +41,13 @@ public class CustomerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         customerTimer -= Time.deltaTime;
 
-        if (customerTimer < 0 )
+        if (customerTimer < 0)
         {
-            if (space != null)
-            {
-                space.CustomerLeaves();
-                Destroy(gameObject);
-            }
-            
-            //lose points?
+            space.CustomerLeaves();
+            Destroy(gameObject);
         }
     }
 
@@ -59,7 +55,7 @@ public class CustomerScript : MonoBehaviour
 
     public void CustomerOrder()
     {
-        randomNum = Random.Range(0, 2);
+        randomNum = Random.Range(0, 3);
         //Generate a random order it wants fulfilled
 
         //Burger generateBurger = new Burger();
@@ -67,58 +63,35 @@ public class CustomerScript : MonoBehaviour
         switch (randomNum)
         {
             case 0:
-                //Patty, Ketchup, Onion burger
-                burger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Ketchup);
-                InternalOrderCheck(Ketchup);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Onion);
-                InternalOrderCheck(Onion);
-                burger.UpdateSprites();
+                // Patty, Ketchup, Onion burger
+                AddIngredientsToBurger(new List<GameObject> { Patty, Ketchup, Onion });
                 break;
             case 1:
-                //Patty, Ketchup, Onion, Lettuce burger
-                burger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Ketchup);
-                InternalOrderCheck(Ketchup);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Onion);
-                InternalOrderCheck(Onion);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Lettuce);
-                InternalOrderCheck(Lettuce);
-                burger.UpdateSprites();
+                // Patty, Ketchup, Onion, Lettuce burger
+                AddIngredientsToBurger(new List<GameObject> { Patty, Ketchup, Onion, Lettuce });
                 break;
             case 2:
-                //Double-patty burger with lettuce
-                burger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Patty);
-                InternalOrderCheck(Patty);
-                burger.UpdateSprites();
-
-                burger.AddIngredient(Lettuce);
-                InternalOrderCheck(Lettuce);
-                burger.UpdateSprites();
+                // Double-patty burger with lettuce
+                AddIngredientsToBurger(new List<GameObject> { Patty, Patty, Lettuce });
                 break;
+
+        }
+    }
+
+    void AddIngredientsToBurger(List<GameObject> ingredients)
+    {
+        foreach (GameObject ingredient in ingredients)
+        {
+            burger.AddIngredient(ingredient);
+            InternalOrderCheck(ingredient);
+            burger.UpdateSprites();
         }
     }
 
     void InternalOrderCheck(GameObject ingredient)
     {
-        GameObject newIngredient = ingredient;
-        customerContents.Add(newIngredient.GetComponent<Ingredient>());
+        //GameObject newIngredient = ingredient;
+        customerContents.Add(ingredient.GetComponent<Ingredient>());
     }
 
     
@@ -135,41 +108,41 @@ public class CustomerScript : MonoBehaviour
 
     bool Compare(Burger order, Burger received)
     {
-        int orderPatties = 0;
-        int orderLettuce = 0;
-        int orderKetchup = 0;
-        int orderOnion = 0;
+        Dictionary<Ingredient, int> orderCount = CountIngredients(customerContents);
+        Dictionary<Ingredient, int> receivedCount = CountIngredients(received.ingredients);
 
-        int receivedPatties = 0;
-        int receivedLettuce = 0;
-        int receivedKetchup = 0;
-        int receivedOnion = 0;
-
-        foreach (Ingredient i in customerContents)
+        foreach (Ingredient ingredient in orderCount.Keys)
         {
-            if(i == Patty){ orderPatties++; }
-            else if(i == Lettuce){ orderLettuce++; }
-            else if(i ==  Ketchup){ orderKetchup++; }
-            else if(i == Onion){ orderOnion++; }
+            if (!receivedCount.ContainsKey(ingredient) || receivedCount[ingredient] != orderCount[ingredient])
+            {
+                return false;
+            }
         }
-
-        
-
-        foreach(Ingredient i in received.ingredients)
+        return true;
+    }
+    Dictionary<Ingredient, int> CountIngredients(List<Ingredient> ingredients)
+    {
+        Dictionary<Ingredient, int> ingredientCount = new Dictionary<Ingredient, int>();
+        foreach (Ingredient ingredient in ingredients)
         {
-            if (i == Patty){ receivedPatties++; }
-            else if (i == Lettuce){ receivedLettuce++; }
-            else if (i == Ketchup){ receivedKetchup++; }
-            else if (i == Onion){ receivedOnion++; }
+            if (ingredientCount.ContainsKey(ingredient))
+            {
+                ingredientCount[ingredient]++;
+            }
+            else
+            {
+                ingredientCount.Add(ingredient, 1);
+            }
         }
+        return ingredientCount;
+    }
 
-        if(orderPatties == receivedPatties && orderLettuce == receivedLettuce && orderKetchup == receivedKetchup && orderOnion == receivedOnion)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+
+
+
+    public void CustomerLeaves()
+    {
+        Destroy(burger.gameObject);
+        Destroy(gameObject);
     }
 }

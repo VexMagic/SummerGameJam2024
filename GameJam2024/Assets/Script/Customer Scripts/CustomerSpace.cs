@@ -8,7 +8,7 @@ public class CustomerSpace : MonoBehaviour
     CustomerScript currentCustomer;
     public GameObject referenceCustomer;
     
-    public Transform transform;
+    //public Transform transform;
     public enum states { empty, occupied };
     public states state;
 
@@ -43,9 +43,16 @@ public class CustomerSpace : MonoBehaviour
         
         if (state == states.empty)
         {
-            GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
+            //GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
 
+            //CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
+
+            //currentCustomer = newCustomer;
+            //state = states.occupied;
+
+            GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
             CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
+            newCustomer.space = this; 
 
             currentCustomer = newCustomer;
             state = states.occupied;
@@ -55,15 +62,23 @@ public class CustomerSpace : MonoBehaviour
 
     public void CustomerLeaves()
     {
-        if(currentCustomer != null && state == states.occupied)
+        //if(currentCustomer != null && state == states.occupied)
+        //{
+        //    currentCustomer.CustomerLeaves();
+        //    currentCustomer = null;
+        //    state = states.empty;
+        //}
+
+        if (currentCustomer != null && state == states.occupied)
         {
+            currentCustomer.CustomerLeaves();
             currentCustomer = null;
             state = states.empty;
         }
-        
+
     }
 
-    public states State
+    public states States
     {
         get { return state; }
         set { state = value; }

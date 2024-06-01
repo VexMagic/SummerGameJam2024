@@ -6,9 +6,9 @@ public class CustomerManager : MonoBehaviour
 {
     //public GameObject spacePrefab;
     List<CustomerSpace> spaces = new List<CustomerSpace>();
-    public CustomerSpace space1 = null;
-    public CustomerSpace space2 = null;
-    public CustomerSpace space3 = null;
+    public CustomerSpace space1;
+    public CustomerSpace space2;
+    public CustomerSpace space3;
 
 
     //public int numOfSpaces = 3;
@@ -32,10 +32,9 @@ public class CustomerManager : MonoBehaviour
     {
         timerFloat -= Time.deltaTime;
 
-        if( timerFloat < 0 )
+        if( timerFloat <= 0 )
         {
-            timerFloat = 60f;
-
+            timerFloat = 10f;
             SearchThroughSpaces();
         }
 
@@ -44,13 +43,24 @@ public class CustomerManager : MonoBehaviour
 
     void SearchThroughSpaces()
     {
-        bool found = false;
+        //bool found = false;
+        //foreach (var space in spaces)
+        //{
+        //    if (!found && space.state == CustomerSpace.states.empty)
+        //    {
+        //        space.NewCustomer();
+        //        found = true;
+        //        break;
+        //    }
+            
+        //}
+
         foreach (var space in spaces)
         {
-            if (!found && space.state == CustomerSpace.states.empty)
+            if (space.state == CustomerSpace.states.empty)
             {
                 space.NewCustomer();
-                break;
+                break; 
             }
         }
     }
