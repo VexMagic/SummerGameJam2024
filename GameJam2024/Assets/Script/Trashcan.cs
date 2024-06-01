@@ -8,7 +8,7 @@ public class Trashcan : InteractionArea
 
     public override bool PlaceBurger()
     {
-        Destroy(PlayerMovement.instance.holdingObject.gameObject);
+        Destroy(PlayerMovement.instance.GetCurrentBurger().gameObject);
         if (animator != null)
             animator.SetTrigger("Interact");
 

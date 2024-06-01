@@ -12,8 +12,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rBody;
     [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed;
-    public Vector2 holdingOffset;
-    public Burger holdingObject;
+    //public Vector2 holdingOffset;
+    public Vector2 leftOffset;
+    public Vector2 rightOffset;
+    public Burger leftObject;
+    public Burger rightObject;
+    private bool leftBurger;
     Vector2 movement;
 
     private void Awake()
@@ -33,15 +37,27 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("IsWalking", movement != Vector2.zero);
     }
 
-    private void OnInteract()
+    private void OnLeft()
+    {
+        leftBurger = true;
+        Interact();
+    }
+
+    private void OnRight()
+    {
+        leftBurger = false;
+        Interact();
+    }
+
+    private void Interact()
     {
         InteractionArea interaction = GetClosestInteraction();
 
         if (interaction != null) 
         {
-            if (holdingObject != null && interaction.holdingObject != null)
+            if (GetCurrentBurger() != null && interaction.holdingObject != null)
             {
-                if (holdingObject.hasBuns && interaction.holdingObject.hasBuns)
+                if (GetCurrentBurger().hasBuns && interaction.holdingObject.hasBuns)
                 {
                     interaction.SwapBurger();
                 }
@@ -57,11 +73,11 @@ public class PlayerMovement : MonoBehaviour
                     animator.SetBool("IsCarrying", true);
                 }
             }
-            else if (holdingObject != null)
+            else if (GetCurrentBurger() != null)
             {
                 if (interaction.PlaceBurger())
                 {
-                    holdingObject = null;
+                    SetCurrentBurger(null);
                     animator.SetBool("IsCarrying", false);
                 }
             }
@@ -82,6 +98,30 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         return closest;
+    }
+
+    public Burger GetCurrentBurger()
+    {
+        if (leftBurger)
+            return leftObject;
+        else
+            return rightObject;
+    }
+
+    public void SetCurrentBurger(Burger burger)
+    {
+        if (leftBurger)
+            leftObject = burger;
+        else
+            rightObject = burger;
+    }
+
+    public Vector2 GetOffset()
+    {
+        if (leftBurger)
+            return leftOffset;
+        else
+            return rightOffset;
     }
 
     private void FixedUpdate()

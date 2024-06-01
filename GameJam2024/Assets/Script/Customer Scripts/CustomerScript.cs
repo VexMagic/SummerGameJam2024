@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CustomerScript : MonoBehaviour
@@ -7,16 +8,16 @@ public class CustomerScript : MonoBehaviour
     //ADD food reference for order
     public float customerTimer = 15f;
     bool receiveOrder = false;
-    
 
     public GameObject exampleBurger;
     private GameObject desiredBurger;
     private int randomNum;
     private Burger burger;
 
-    //public Transform transform;
     public CustomerSpace space;
 
+    [SerializeField] Vector2 orderOffset;
+    [SerializeField] SpriteRenderer orderBubble;
     [SerializeField] List<Ingredient> customerContents = new List<Ingredient>();
     [SerializeField] SpriteRenderer TopBun;
     [SerializeField] SpriteRenderer BottomBun;
@@ -27,14 +28,17 @@ public class CustomerScript : MonoBehaviour
     [SerializeField] GameObject Onion;
     [SerializeField] GameObject Lettuce;
 
+    const bool DictionaryDebug = false;
 
     void Start()
     {
         customerTimer = 15f;
         desiredBurger = Instantiate(exampleBurger, transform);
+        desiredBurger.transform.localPosition = orderOffset;
         desiredBurger.SetActive(true);
         burger = desiredBurger.GetComponent<Burger>();
         CustomerOrder();
+        orderBubble.size = new Vector2(2, burger.Height + 0.5f);
 
         if (space == null)
         {
@@ -42,25 +46,8 @@ public class CustomerScript : MonoBehaviour
         }
     }
 
-
     void Update()
     {
-
-        //    customerTimer -= Time.deltaTime;
-
-        //    if (customerTimer < 0)
-        //    {
-        //        if (space != null) 
-        //        {
-        //            space.CustomerLeaves();
-        //        }
-        //        else
-        //        {
-        //            Debug.LogError("NO CUSTOMER SPACE WHEN RUNNING OUT OF TIME");
-        //        }
-        //        Destroy(gameObject);
-        //    }
-
         customerTimer -= Time.deltaTime;
 
         if (customerTimer < 0)
@@ -77,14 +64,10 @@ public class CustomerScript : MonoBehaviour
         }
     }
 
-
-
     public void CustomerOrder()
     {
-        randomNum = Random.Range(0, 3);
-        //Generate a random order it wants fulfilled
-
-        //Burger generateBurger = new Burger();
+        randomNum = Random.Range(0, 4);
+        burger.hasBuns = true;
 
         switch (randomNum)
         {
@@ -100,6 +83,9 @@ public class CustomerScript : MonoBehaviour
                 // Double-patty burger with lettuce
                 AddIngredientsToBurger(new List<GameObject> { Patty, Patty, Lettuce });
                 break;
+            case 3:
+                AddIngredientsToBurger(new List<GameObject> { Patty, Ketchup, Patty, Ketchup, Patty, Ketchup, Patty, Ketchup });
+                break;
 
         }
     }
@@ -109,6 +95,10 @@ public class CustomerScript : MonoBehaviour
         foreach (GameObject ingredient in ingredients)
         {
             burger.AddIngredient(ingredient);
+
+            if (burger.Contents[^1].Type == IngredientType.Patty)
+                (burger.Contents[^1] as Patty).Cook(1f);
+            
             InternalOrderCheck(ingredient);
             burger.UpdateSprites();
         }
@@ -118,14 +108,11 @@ public class CustomerScript : MonoBehaviour
     {
         //GameObject newIngredient = ingredient;
         customerContents.Add(ingredient.GetComponent<Ingredient>());
-    }
+    }    
 
-    
-
-    public void ReceiveOrder(Burger otherBurger)
+    public bool ReceiveOrder(Burger otherBurger)
     {
-        
-
+        Debug.Log("Receive Order");
         if (Compare(burger, otherBurger))
         {
             if (space != null)
@@ -137,15 +124,17 @@ public class CustomerScript : MonoBehaviour
                 Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
             }
             Destroy(gameObject);
+            return true;
         }
+        return false;
     }
 
     bool Compare(Burger order, Burger received)
     {
-        Dictionary<Ingredient, int> orderCount = CountIngredients(customerContents);
-        Dictionary<Ingredient, int> receivedCount = CountIngredients(received.Contents);
+        Dictionary<IngredientType, int> orderCount = CountIngredients(customerContents, true);
+        Dictionary<IngredientType, int> receivedCount = CountIngredients(received.Contents, false);
 
-        foreach (Ingredient ingredient in orderCount.Keys)
+        foreach (IngredientType ingredient in orderCount.Keys)
         {
             if (!receivedCount.ContainsKey(ingredient) || receivedCount[ingredient] != orderCount[ingredient])
             {
@@ -154,25 +143,45 @@ public class CustomerScript : MonoBehaviour
         }
         return true;
     }
-    Dictionary<Ingredient, int> CountIngredients(List<Ingredient> ingredients)
+
+    Dictionary<IngredientType, int> CountIngredients(List<Ingredient> ingredients, bool isOrder)
     {
-        Dictionary<Ingredient, int> ingredientCount = new Dictionary<Ingredient, int>();
+        Dictionary<IngredientType, int> ingredientCount = new Dictionary<IngredientType, int>();
         foreach (Ingredient ingredient in ingredients)
         {
-            if (ingredientCount.ContainsKey(ingredient))
+            if (ingredient.Type == IngredientType.Patty && !isOrder)
             {
-                ingredientCount[ingredient]++;
+                if ((ingredient as Patty).State != PattyState.Finished)
+                {
+                    Debug.Log((ingredient as Patty).State);
+                    continue;
+                }
+            }
+
+            if (ingredientCount.ContainsKey(ingredient.Type))
+            {
+                ingredientCount[ingredient.Type]++;
             }
             else
             {
-                ingredientCount.Add(ingredient, 1);
+                ingredientCount.Add(ingredient.Type, 1);
             }
         }
+
+        if (DictionaryDebug)
+        {
+            string tempDebug = string.Empty;
+
+            foreach (var item in ingredientCount)
+            {
+                tempDebug += item.Key + ": " + item.Value + " - ";
+            }
+
+            Debug.Log(tempDebug);
+        }
+
         return ingredientCount;
     }
-
-
-
 
     public void CustomerLeaves()
     {

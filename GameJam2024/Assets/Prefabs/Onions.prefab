@@ -99,4 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 2
   IngredientSprite: {fileID: 1489655008511608748}
-  size: 2
+  size: 4

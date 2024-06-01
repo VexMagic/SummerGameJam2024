@@ -15,9 +15,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Interact",
+                    "name": "Left",
                     "type": "Button",
-                    "id": "1b9c9743-9649-4fce-ab13-48439fc86929",
+                    "id": "5d3ac2fd-7fbc-4f18-a5ff-2736c6167482",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "4567c92a-65ce-4780-a0ae-a8dcd51caae4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -137,34 +146,23 @@
                 },
                 {
                     "name": "",
-                    "id": "4ae45f06-31e8-48da-a9cd-241d07da1fa6",
-                    "path": "<Gamepad>/buttonSouth",
+                    "id": "416a7348-49b2-48e7-b802-98b5c71a5810",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Interact",
+                    "groups": "",
+                    "action": "Left",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "fc672fa2-660e-4d41-b867-966e7981f52b",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "52c9301f-84d8-40da-9554-31825be9adf5",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b73bb935-1094-49a2-bff1-71e76a8057bd",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Interact",
+                    "groups": "",
+                    "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

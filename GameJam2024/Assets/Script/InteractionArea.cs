@@ -33,9 +33,9 @@ public class InteractionArea : MonoBehaviour
 
     public virtual bool PlaceBurger()
     {
-        PlayerMovement.instance.holdingObject.transform.parent = transform;
-        PlayerMovement.instance.holdingObject.transform.localPosition = holdingOffset;
-        holdingObject = PlayerMovement.instance.holdingObject;
+        PlayerMovement.instance.GetCurrentBurger().transform.parent = transform;
+        PlayerMovement.instance.GetCurrentBurger().transform.localPosition = holdingOffset;
+        holdingObject = PlayerMovement.instance.GetCurrentBurger();
 
         return true;
     }
@@ -43,8 +43,8 @@ public class InteractionArea : MonoBehaviour
     public virtual bool GrabBurger()
     {
         holdingObject.transform.parent = PlayerMovement.instance.transform;
-        holdingObject.transform.localPosition = PlayerMovement.instance.holdingOffset;
-        PlayerMovement.instance.holdingObject = holdingObject;
+        holdingObject.transform.localPosition = PlayerMovement.instance.GetOffset();
+        PlayerMovement.instance.SetCurrentBurger(holdingObject);
         holdingObject = null;
 
         return true;
@@ -53,14 +53,14 @@ public class InteractionArea : MonoBehaviour
     public virtual bool SwapBurger()
     {
         holdingObject.transform.parent = PlayerMovement.instance.transform;
-        holdingObject.transform.localPosition = PlayerMovement.instance.holdingOffset;
+        holdingObject.transform.localPosition = PlayerMovement.instance.GetOffset();
 
-        PlayerMovement.instance.holdingObject.transform.parent = transform;
-        PlayerMovement.instance.holdingObject.transform.localPosition = holdingOffset;
+        PlayerMovement.instance.GetCurrentBurger().transform.parent = transform;
+        PlayerMovement.instance.GetCurrentBurger().transform.localPosition = holdingOffset;
 
         Burger tempHoldingObject = holdingObject;
-        holdingObject = PlayerMovement.instance.holdingObject;
-        PlayerMovement.instance.holdingObject = tempHoldingObject;
+        holdingObject = PlayerMovement.instance.GetCurrentBurger();
+        PlayerMovement.instance.SetCurrentBurger(tempHoldingObject);
 
         return true;
     } 
@@ -69,11 +69,11 @@ public class InteractionArea : MonoBehaviour
     {
         foreach (var item in holdingObject.Contents)
         {
-            PlayerMovement.instance.holdingObject.AddIngredient(item.gameObject);
+            PlayerMovement.instance.GetCurrentBurger().AddIngredient(item.gameObject);
         }
 
         if (holdingObject.hasBuns)
-            PlayerMovement.instance.holdingObject.AddBuns();
+            PlayerMovement.instance.GetCurrentBurger().AddBuns();
 
         if (!(this is Supply))
         {

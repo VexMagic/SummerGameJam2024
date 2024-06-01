@@ -10,11 +10,11 @@ public class Grill : InteractionArea
 
     public override bool PlaceBurger()
     {
-        if (!PlayerMovement.instance.holdingObject.hasBuns && PlayerMovement.instance.holdingObject.Contents.Count > 0)
+        if (!PlayerMovement.instance.GetCurrentBurger().hasBuns && PlayerMovement.instance.GetCurrentBurger().Contents.Count > 0)
         {
-            if (PlayerMovement.instance.holdingObject.Contents[0].Type == IngredientType.Patty)
+            if (PlayerMovement.instance.GetCurrentBurger().Contents[0].Type == IngredientType.Patty)
             {
-                if (PlayerMovement.instance.holdingObject.Contents.Count == 1)
+                if (PlayerMovement.instance.GetCurrentBurger().Contents.Count == 1)
                 {
                     return base.PlaceBurger();
                 }
@@ -30,13 +30,13 @@ public class Grill : InteractionArea
 
     public override bool CombineBurger()
     {
-        if (!PlayerMovement.instance.holdingObject.hasBuns && PlayerMovement.instance.holdingObject.Contents.Count > 0)
+        if (!PlayerMovement.instance.GetCurrentBurger().hasBuns && PlayerMovement.instance.GetCurrentBurger().Contents.Count > 0)
         {
-            if (PlayerMovement.instance.holdingObject.Contents[0].Type == IngredientType.Patty)
+            if (PlayerMovement.instance.GetCurrentBurger().Contents[0].Type == IngredientType.Patty)
             {
-                if ((PlayerMovement.instance.holdingObject.Contents[0] as Patty).State == PattyState.Raw)
+                if ((PlayerMovement.instance.GetCurrentBurger().Contents[0] as Patty).State == PattyState.Raw)
                 {
-                    if (PlayerMovement.instance.holdingObject.Contents.Count == 1)
+                    if (PlayerMovement.instance.GetCurrentBurger().Contents.Count == 1)
                     {
                         return base.SwapBurger();
                     }
@@ -59,12 +59,12 @@ public class Grill : InteractionArea
     {
         GameObject tempObject = Instantiate(burgerPrefab, transform);
         holdingObject = tempObject.GetComponent<Burger>();
-        holdingObject.AddIngredient(PlayerMovement.instance.holdingObject.Contents[0].gameObject);
+        holdingObject.AddIngredient(PlayerMovement.instance.GetCurrentBurger().Contents[0].gameObject);
         holdingObject.transform.localPosition = (Vector3)holdingOffset;
 
-        Destroy(PlayerMovement.instance.holdingObject.Contents[0].gameObject);
-        PlayerMovement.instance.holdingObject.Contents.RemoveAt(0);
-        PlayerMovement.instance.holdingObject.UpdateSprites();
+        Destroy(PlayerMovement.instance.GetCurrentBurger().Contents[0].gameObject);
+        PlayerMovement.instance.GetCurrentBurger().Contents.RemoveAt(0);
+        PlayerMovement.instance.GetCurrentBurger().UpdateSprites();
     }
 
     private void FixedUpdate()

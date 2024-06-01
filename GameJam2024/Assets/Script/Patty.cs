@@ -10,13 +10,6 @@ public class Patty : Ingredient
     public float CookedProcentage;
     [SerializeField] Sprite[] Sprites;
 
-    protected override void Update()
-    {
-        base.Update();
-        IngredientSprite.sprite = Sprites[(int)CookedProcentage];
-        State = (PattyState)(int)CookedProcentage;
-    }
-
     protected override void Initalize()
     {
         Type = IngredientType.Patty;
@@ -27,6 +20,8 @@ public class Patty : Ingredient
     {
         CookedProcentage += cookingRate;
         CookedProcentage = Mathf.Clamp(CookedProcentage, 0f, 2f);
+        IngredientSprite.sprite = Sprites[Mathf.FloorToInt(CookedProcentage)];
+        State = (PattyState)Mathf.FloorToInt(CookedProcentage);
     }
 }
 
