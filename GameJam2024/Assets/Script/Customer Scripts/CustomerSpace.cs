@@ -43,26 +43,27 @@ public class CustomerSpace : MonoBehaviour
         
         if (state == states.empty)
         {
-            //GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
+            GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
+            CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
+            newCustomer.space = this;
+            currentCustomer = newCustomer;
+            state = states.occupied; 
 
+            //GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
             //CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
+            //newCustomer.space = this; 
 
             //currentCustomer = newCustomer;
             //state = states.occupied;
-
-            GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
-            CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
-            newCustomer.space = this; 
-
-            currentCustomer = newCustomer;
-            state = states.occupied;
         }
         
     }
 
     public void CustomerLeaves()
     {
-        //if(currentCustomer != null && state == states.occupied)
+        
+
+        //if (currentCustomer != null && state == states.occupied)
         //{
         //    currentCustomer.CustomerLeaves();
         //    currentCustomer = null;
@@ -71,9 +72,9 @@ public class CustomerSpace : MonoBehaviour
 
         if (currentCustomer != null && state == states.occupied)
         {
-            currentCustomer.CustomerLeaves();
+            currentCustomer.CustomerLeaves(); // This will call Destroy on itself
             currentCustomer = null;
-            state = states.empty;
+            state = states.empty; // Ensure the state is set to empty
         }
 
     }

@@ -27,31 +27,45 @@ public class CustomerScript : MonoBehaviour
     [SerializeField] GameObject Onion;
     [SerializeField] GameObject Lettuce;
 
+
     void Start()
     {
-        
         customerTimer = 15f;
         desiredBurger = Instantiate(exampleBurger, transform);
         desiredBurger.SetActive(true);
         burger = desiredBurger.GetComponent<Burger>();
         CustomerOrder();
 
-        if(space == null)
+        if (space == null)
         {
             Debug.LogError("NO CUSTOMER SPACE AT START");
         }
     }
 
 
-    // Update is called once per frame
     void Update()
     {
-        
+
+        //    customerTimer -= Time.deltaTime;
+
+        //    if (customerTimer < 0)
+        //    {
+        //        if (space != null) 
+        //        {
+        //            space.CustomerLeaves();
+        //        }
+        //        else
+        //        {
+        //            Debug.LogError("NO CUSTOMER SPACE WHEN RUNNING OUT OF TIME");
+        //        }
+        //        Destroy(gameObject);
+        //    }
+
         customerTimer -= Time.deltaTime;
 
         if (customerTimer < 0)
         {
-            if (space != null) 
+            if (space != null)
             {
                 space.CustomerLeaves();
             }
@@ -61,7 +75,6 @@ public class CustomerScript : MonoBehaviour
             }
             Destroy(gameObject);
         }
-        
     }
 
 
@@ -111,12 +124,24 @@ public class CustomerScript : MonoBehaviour
 
     public void ReceiveOrder(Burger otherBurger)
     {
-        if(Compare(burger, otherBurger))
+        //if(Compare(burger, otherBurger))
+        //{
+            
+            
+        //    if(space != null)
+        //    {
+        //        space.CustomerLeaves();
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
+        //    }
+        //    Destroy(gameObject);
+        //}
+
+        if (Compare(burger, otherBurger))
         {
-            //points?
-            
-            
-            if(space != null)
+            if (space != null)
             {
                 space.CustomerLeaves();
             }
@@ -164,7 +189,13 @@ public class CustomerScript : MonoBehaviour
 
     public void CustomerLeaves()
     {
-        Destroy(burger.gameObject);
-        Destroy(gameObject);
+        if (burger != null)
+        {
+            Destroy(burger.gameObject);
+        }
+        else
+        {
+            Debug.LogError("Burger object is null.");
+        }
     }
 }
