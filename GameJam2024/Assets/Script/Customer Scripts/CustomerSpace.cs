@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomerSpace : MonoBehaviour
+public class CustomerSpace : InteractionArea
 {
     [SerializeField]
     CustomerScript currentCustomer;
@@ -18,6 +18,24 @@ public class CustomerSpace : MonoBehaviour
         state = states.empty;
     }
 
+    public override bool PlaceBurger()
+    {
+        if (currentCustomer != null)
+        {
+            if (currentCustomer.ReceiveOrder(PlayerMovement.instance.GetCurrentBurger()))
+            {
+                Destroy(PlayerMovement.instance.GetCurrentBurger().gameObject);
+            }
+            else
+            {
+                base.PlaceBurger();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 
     //Holds a spot that can have a customer present. 
     //These should be interactable with the player to deliver food to.
@@ -40,43 +58,25 @@ public class CustomerSpace : MonoBehaviour
 
     public void NewCustomer()
     {
-        
         if (state == states.empty)
         {
             GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
             CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
             newCustomer.space = this;
             currentCustomer = newCustomer;
-            state = states.occupied; 
-
-            //GameObject newCustomerObject = Instantiate(referenceCustomer, transform);
-            //CustomerScript newCustomer = newCustomerObject.GetComponent<CustomerScript>();
-            //newCustomer.space = this; 
-
-            //currentCustomer = newCustomer;
-            //state = states.occupied;
+            state = states.occupied;
         }
         
     }
 
     public void CustomerLeaves()
     {
-        
-
-        //if (currentCustomer != null && state == states.occupied)
-        //{
-        //    currentCustomer.CustomerLeaves();
-        //    currentCustomer = null;
-        //    state = states.empty;
-        //}
-
         if (currentCustomer != null && state == states.occupied)
         {
             currentCustomer.CustomerLeaves(); // This will call Destroy on itself
             currentCustomer = null;
             state = states.empty; // Ensure the state is set to empty
         }
-
     }
 
     public states States

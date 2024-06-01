@@ -11,16 +11,16 @@ public class Supply : InteractionArea
     public override bool GrabBurger()
     {
         GameObject tempObject = Instantiate(burgerPrefab, PlayerMovement.instance.transform);
-        PlayerMovement.instance.holdingObject = tempObject.GetComponent<Burger>();
+        PlayerMovement.instance.SetCurrentBurger(tempObject.GetComponent<Burger>());
         foreach (var item in holdingObject.Contents)
         {
-            PlayerMovement.instance.holdingObject.AddIngredientByType(item.Type);
+            PlayerMovement.instance.GetCurrentBurger().AddIngredientByType(item.Type);
         }
         if (holdingObject.hasBuns)
         {
-            PlayerMovement.instance.holdingObject.AddBuns();
+            PlayerMovement.instance.GetCurrentBurger().AddBuns();
         }
-        PlayerMovement.instance.holdingObject.transform.localPosition = (Vector3)PlayerMovement.instance.holdingOffset;
+        PlayerMovement.instance.GetCurrentBurger().transform.localPosition = (Vector3)PlayerMovement.instance.GetOffset();
 
         return true;
     }
