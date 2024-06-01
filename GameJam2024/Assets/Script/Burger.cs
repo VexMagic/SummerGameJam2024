@@ -78,5 +78,15 @@ public class Burger : MonoBehaviour
         //// Top Bun
         //currentHeight += TopBun.bounds.size.y;
         //TopBun.transform.localPosition = new(0, currentHeight);
+
+
+
+
+
+    }
+
+    public List<Ingredient> ingredients
+    {
+        get { return Contents; }
     }
 }

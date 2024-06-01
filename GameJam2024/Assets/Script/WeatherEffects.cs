@@ -9,6 +9,7 @@ public class WeatherEffects : MonoBehaviour
 
     public WeatherEffect currentEffect;
 
+
     public float weatherLength = 10f;
     //public GameObject playerObject;
     //public Transform playerTransform;
@@ -16,12 +17,13 @@ public class WeatherEffects : MonoBehaviour
     public Rigidbody2D player;
     Vector2 windDirection = new Vector2(0, 0);
     public float windStrength = 0.5f;
-
+    private float resetReference;
     
 
     void Start()
     {
         currentEffect = WeatherEffect.Neutral;
+        resetReference = 10f;
     }
 
     // Update is called once per frame
@@ -94,18 +96,18 @@ public class WeatherEffects : MonoBehaviour
             {
                 RandomWindDirection();
                 currentEffect = WeatherEffect.Windy;
-                weatherLength = 10f;
+                weatherLength = resetReference;
             }
             else if (randomInt == 1)
             {
                 currentEffect = WeatherEffect.Mosquitos;
-                weatherLength = 10f;
+                weatherLength = resetReference;
                 
             }
             else if(randomInt == 2)
             {
                 currentEffect = WeatherEffect.Rainy;
-                weatherLength = 10f;
+                weatherLength = resetReference;
                 
             }
         }
