@@ -28,6 +28,11 @@ public class CustomerScript : MonoBehaviour
     [SerializeField] GameObject Onion;
     [SerializeField] GameObject Lettuce;
 
+    [SerializeField] List<Color> SkinColors;
+    [SerializeField] List<Sprite> PossibleHats;
+    [SerializeField] [Range(0f,1f)] float HatChance;
+    [SerializeField] SpriteRenderer HatPosition;
+
     const bool DictionaryDebug = false;
 
     void Start()
@@ -39,6 +44,11 @@ public class CustomerScript : MonoBehaviour
         burger = desiredBurger.GetComponent<Burger>();
         CustomerOrder();
         orderBubble.size = new Vector2(2, burger.Height + 0.5f);
+
+        GetComponent<SpriteRenderer>().color = SkinColors[Random.Range(0,SkinColors.Count)];
+
+        if (Random.Range(0f,1f) >= HatChance)
+            HatPosition.sprite = PossibleHats[Random.Range(0, PossibleHats.Count)];
 
         if (space == null)
         {
