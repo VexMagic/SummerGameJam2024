@@ -134,7 +134,7 @@ public class CustomerScript : MonoBehaviour
             {
                 Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
             }
-            StartCoroutine(PlaySound());
+            StartCoroutine(PlayEffects());
             return true;
         }
         return false;
@@ -206,10 +206,18 @@ public class CustomerScript : MonoBehaviour
         }
     }
 
-    IEnumerator PlaySound()
+    IEnumerator PlayEffects()
     {
         HappyCustomer.Play();
+        HideSprites();
         yield return new WaitUntil(() => !HappyCustomer.isPlaying);
         Destroy(gameObject);
+    }
+
+    public void HideSprites()
+    {
+        orderBubble.enabled = false;
+        HatPosition.enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 }
