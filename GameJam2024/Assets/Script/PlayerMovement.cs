@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private bool leftBurger;
     Vector2 movement;
 
-    private float debuffModifier;
+    private float debuffModifier = 0.5f;
     public bool debuff;
 
     private void Awake()

@@ -18,6 +18,7 @@ public class WeatherEffects : MonoBehaviour
     Vector2 windDirection = new Vector2(0, 0);
     public float windStrength = 2.5f;
     private float resetReference;
+    private int previousWeather;
 
     [SerializeField]
     private ParticleSystem mosquitosPrefab;
@@ -111,7 +112,12 @@ public class WeatherEffects : MonoBehaviour
         }
         else //If the weather is going from neutral then it chooses a random other type to switch to
         {
-            int randomInt = UnityEngine.Random.Range(0, 3);
+            int randomInt = 0;
+            do
+            {
+                randomInt = UnityEngine.Random.Range(0, 3);
+            } while (randomInt == previousWeather);
+            previousWeather = randomInt;
             if (randomInt == 0)
             {
                 RandomWindDirection();
