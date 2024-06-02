@@ -979,6 +979,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7e62a458e5b7834fb8271f8e3d315a6, type: 3}
+--- !u!114 &984008365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2417324332478862050, guid: 382b2d9d994502d4db3cb8d0772b5d73, type: 3}
+  m_PrefabInstance: {fileID: 380864368}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df9183fd3b2e8c41824ce46f129282a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1065547284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1372,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3521587842297629652, guid: 382b2d9d994502d4db3cb8d0772b5d73, type: 3}
   m_PrefabInstance: {fileID: 1217010892}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1217010897 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2417324332478862050, guid: 382b2d9d994502d4db3cb8d0772b5d73, type: 3}
+  m_PrefabInstance: {fileID: 1217010892}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df9183fd3b2e8c41824ce46f129282a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1649040467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4602f9d4e3767494da01fdd19d0e9ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaces: []
+  spaces:
+  - {fileID: 1217010897}
+  - {fileID: 984008365}
   timerFloat: 10
 --- !u!4 &1649040469
 Transform:
@@ -1792,15 +1816,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 533557548197270343, guid: ea30e1ff7204ee845b18c5ce27581b1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 533557548197270343, guid: ea30e1ff7204ee845b18c5ce27581b1f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5907843
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 533557548197270343, guid: ea30e1ff7204ee845b18c5ce27581b1f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.018375617
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 533557548197270343, guid: ea30e1ff7204ee845b18c5ce27581b1f, type: 3}
       propertyPath: m_LocalRotation.w

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     public List<CustomerSpace> spaces = new List<CustomerSpace>();
-    public float timerFloat = 10f;
+    public float timerFloat = 30f;
 
 
     // Update is called once per frame
