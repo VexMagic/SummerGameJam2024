@@ -1594,6 +1594,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f2ba13aa494722428b2b363d358b5f4, type: 3}
+--- !u!50 &1880631789 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 3948972197167046128, guid: be80bdc2e2345f54088846c7cef307a6, type: 3}
+  m_PrefabInstance: {fileID: 7519447336220797526}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1886542981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1828,7 +1833,11 @@ PrefabInstance:
     - target: {fileID: 5836337042985968954, guid: ea30e1ff7204ee845b18c5ce27581b1f, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1880631789}
+    - target: {fileID: 5836337042985968954, guid: ea30e1ff7204ee845b18c5ce27581b1f, type: 3}
+      propertyPath: mosquitosPrefab
+      value: 
+      objectReference: {fileID: 4290357222431080391, guid: b88b3f8b04ffc094b92207e871235aed, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

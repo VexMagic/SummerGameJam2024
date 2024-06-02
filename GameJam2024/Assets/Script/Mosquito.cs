@@ -49,8 +49,13 @@ public class Mosquito : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position -= (direction * moveSpeed).normalized;
-        
-
+        if (Vector3.Distance(transform.position, PlayerMovement.instance.transform.position) > 1)
+        {
+            transform.position -= (direction * moveSpeed).normalized;
+        }
+        else
+        {
+            transform.position = PlayerMovement.instance.transform.position;   
+        }
     }
 }
