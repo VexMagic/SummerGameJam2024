@@ -35,6 +35,8 @@ public class CustomerScript : MonoBehaviour
     [SerializeField] SpriteRenderer HatPosition;
     [SerializeField] AudioSource HappyCustomer;
 
+    [SerializeField] int CorrectBurgerPoints;
+
     const bool DictionaryDebug = false;
 
     void Start()
@@ -139,6 +141,13 @@ public class CustomerScript : MonoBehaviour
             {
                 Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
             }
+
+            if (customerContents.All(otherBurger.Contents.Contains) && !customerContents.SequenceEqual(otherBurger.Contents))
+                GameObject.Find("Game Manager").GetComponent<GameManager>().GivePoints(Mathf.FloorToInt(CorrectBurgerPoints / 2f));
+
+            else
+                GameObject.Find("Game Manager").GetComponent<GameManager>().GivePoints(CorrectBurgerPoints);
+
             StartCoroutine(PlayEffects());
             return true;
         }

@@ -268,8 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef64c2d7c0cf3c4f808693c747041b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customerTimer: 15
+  customerTimer: 45
   exampleBurger: {fileID: 8098080680627309749, guid: 95363b1db45e5dc479106197b9bf49a9, type: 3}
+  progressBar: {fileID: 0}
   space: {fileID: 0}
   orderOffset: {x: 1.5, y: 1}
   orderBubble: {fileID: 7195942217787163505}
@@ -295,6 +296,7 @@ MonoBehaviour:
   HatChance: 0.5
   HatPosition: {fileID: 9032287216403626465}
   HappyCustomer: {fileID: 7410298173727152359}
+  CorrectBurgerPoints: 10
 --- !u!82 &7410298173727152359
 AudioSource:
   m_ObjectHideFlags: 0

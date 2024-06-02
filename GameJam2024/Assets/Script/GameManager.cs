@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     public void GivePoints(int points)
     {
-
+        Debug.Log($"Old Score: {Points} | New Score {Points + points}");
+        Points += points;
     }
 }
