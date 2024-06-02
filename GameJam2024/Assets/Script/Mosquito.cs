@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Mosquito : MonoBehaviour
@@ -12,6 +13,11 @@ public class Mosquito : MonoBehaviour
 
     [SerializeField]
     private float timer = 10f;
+
+    private void Start()
+    {
+        timer = GetComponentInParent<WeatherEffects>().weatherLength;
+    }
 
     // Update is called once per frame
     void Update()

@@ -112,7 +112,7 @@ public class Grill : InteractionArea
         {
             if (!AudioSource.isPlaying)
             {
-                AudioSource.pitch = 1f + Random.Range(-0.1f,0.1f);
+                //AudioSource.pitch = 1f + Random.Range(-0.1f,0.1f);
 
                 AudioSource.Play();
             }
