@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Diagnostics;
 
 public class WeatherEffects : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class WeatherEffects : MonoBehaviour
     public float windStrength = 2.5f;
     private float resetReference;
     private int previousWeather;
+    [SerializeField] float WeatherDelay;
+    bool AwaitingWeather;
 
     [SerializeField]
     private ParticleSystem mosquitosPrefab;
@@ -28,12 +31,19 @@ public class WeatherEffects : MonoBehaviour
     public GameObject particleSystemRain;
     //public Transform particleTransform;
 
+    [SerializeField] AudioSource WeatherSound;
+    [SerializeField] AudioClip Raining;
+    [SerializeField] AudioClip Wind;
+    [SerializeField] AudioClip Buzzing;
+
+    [SerializeField] AudioClip WarningRain;
+    [SerializeField] AudioClip WarningWind;
+    [SerializeField] AudioClip WarningMosqito;
+
     void Start()
     {
         currentEffect = WeatherEffect.Neutral;
         resetReference = weatherLength;
-
-
     }
 
     // Update is called once per frame
@@ -41,13 +51,11 @@ public class WeatherEffects : MonoBehaviour
     {
         weatherLength -= Time.deltaTime;
 
-        if (weatherLength < 0)
+        if (weatherLength < 0 && !AwaitingWeather)
         {
             RandomWeather();
             //Generate a random weather type
         }
-
-
     }
 
     void FixedUpdate()
@@ -59,8 +67,6 @@ public class WeatherEffects : MonoBehaviour
     //Add more effects for the different weather types!
     void UpdateWeather()
     {
-
-
         switch (currentEffect)
         {
             case WeatherEffect.Mosquitos:
@@ -77,16 +83,12 @@ public class WeatherEffects : MonoBehaviour
                     //playerTransform.x -= windDirection.x;
                     player.AddForce(windDirection * windStrength);
                 }
-
-
                 break;
             case WeatherEffect.Neutral:
 
                 //playerSprite.color = Color.white;
                 break;
         }
-
-
     }
 
     //Method for choosen a random weather.
@@ -109,6 +111,8 @@ public class WeatherEffects : MonoBehaviour
             currentEffect = WeatherEffect.Neutral;
             weatherLength = 10f;
 
+            if (WeatherSound.isPlaying)
+                WeatherSound.Stop();
         }
         else //If the weather is going from neutral then it chooses a random other type to switch to
         {
@@ -119,32 +123,29 @@ public class WeatherEffects : MonoBehaviour
             } while (randomInt == previousWeather);
             previousWeather = randomInt;
 
-            if (randomInt == 0)
+            switch (randomInt)
             {
-                RandomWindDirection();
-
-                currentEffect = WeatherEffect.Windy;
-                weatherLength = resetReference;
+                case 0:
+                    //RandomWindDirection();
+                    currentEffect = WeatherEffect.Windy;
+                    //weatherLength = resetReference;
+                    break;
+                case 1:
+                    currentEffect = WeatherEffect.Mosquitos;
+                    //ParticleSystem newMosquitos = Instantiate(mosquitosPrefab, transform);
+                    //Mosquito newMosquito = newMosquitos.GetComponent<Mosquito>();
+                    //newMosquito.playerTransform = player.gameObject.transform;
+                    //weatherLength = resetReference;
+                    break;
+                case 2:
+                    //particleSystemRain.SetActive(true);
+                    currentEffect = WeatherEffect.Rainy;
+                    //weatherLength = resetReference;
+                    break;
             }
-            else if (randomInt == 1)
-            {
-                currentEffect = WeatherEffect.Mosquitos;
-                ParticleSystem newMosquitos = Instantiate(mosquitosPrefab, transform);
-                Mosquito newMosquito = newMosquitos.GetComponent<Mosquito>();
-                newMosquito.playerTransform = player.gameObject.transform;
 
-                weatherLength = resetReference;
-
-            }
-            else if (randomInt == 2)
-            {
-                particleSystemRain.SetActive(true);
-                currentEffect = WeatherEffect.Rainy;
-                weatherLength = resetReference;
-
-            }
+            StartCoroutine(StartWeather());
         }
-
     }
 
     //Choose a random direction for the wind
@@ -171,12 +172,51 @@ public class WeatherEffects : MonoBehaviour
         }
     }
 
-    //public IEnumerator CoRoutineTest()
-    //{
-    //    yield return new WaitForSeconds(10);
-    //}
+    public IEnumerator StartWeather()
+    {
+        AwaitingWeather = true;
 
+        switch (currentEffect)
+        {
+            case WeatherEffect.Windy:
+                WeatherSound.clip = WarningWind;
+                break;
+            case WeatherEffect.Mosquitos:
+                WeatherSound.clip = WarningMosqito;
+                break;
+            case WeatherEffect.Rainy:
+                WeatherSound.clip = WarningRain;
+                break;
+        }
 
+        if (WeatherSound.clip != null)
+            WeatherSound.Play();
 
+        yield return new WaitForSeconds(WeatherDelay);
+
+        switch (currentEffect)
+        {
+            case WeatherEffect.Windy:
+                RandomWindDirection();
+                weatherLength = resetReference;
+                WeatherSound.clip = Wind;
+                break;
+            case WeatherEffect.Mosquitos:
+                ParticleSystem newMosquitos = Instantiate(mosquitosPrefab, transform);
+                Mosquito newMosquito = newMosquitos.GetComponent<Mosquito>();
+                newMosquito.playerTransform = player.gameObject.transform;
+                weatherLength = resetReference;
+                WeatherSound.clip = Buzzing;
+                break;
+            case WeatherEffect.Rainy:
+                particleSystemRain.SetActive(true);
+                weatherLength = resetReference;
+                WeatherSound.clip = Raining;
+                break;
+        }
+
+        WeatherSound.Play();
+        AwaitingWeather = false;
+    }
 }
 
