@@ -7,7 +7,7 @@ public class WeatherEffects : MonoBehaviour
 {
     public enum WeatherEffect { Mosquitos, Neutral, Rainy, Windy};
 
-    public WeatherEffect currentEffect;
+    public static WeatherEffect currentEffect;
 
 
     public float weatherLength = 10f;
@@ -169,6 +169,7 @@ public class WeatherEffects : MonoBehaviour
     //    yield return new WaitForSeconds(10);
     //}
 
+    
 
 }
 
