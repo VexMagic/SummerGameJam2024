@@ -5,9 +5,10 @@ using UnityEngine;
 public class Trashcan : InteractionArea
 {
     [SerializeField] private Animator animator;
-
+    [SerializeField] AudioSource AudioSource;
     public override bool PlaceBurger()
     {
+        AudioSource.Play();
         Destroy(PlayerMovement.instance.GetCurrentBurger().gameObject);
         if (animator != null)
             animator.SetTrigger("Interact");
