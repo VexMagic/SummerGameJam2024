@@ -119,8 +119,6 @@ public class WeatherEffects : MonoBehaviour
             } while (randomInt == previousWeather);
             previousWeather = randomInt;
 
-            randomInt = 2;
-
             if (randomInt == 0)
             {
                 RandomWindDirection();
