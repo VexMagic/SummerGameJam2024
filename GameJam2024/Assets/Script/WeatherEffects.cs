@@ -19,8 +19,12 @@ public class WeatherEffects : MonoBehaviour
     public float windStrength = 2.5f;
     private float resetReference;
 
+    [SerializeField]
+    private ParticleSystem mosquitosPrefab;
+
     public GameObject particleSystemLeft;
     public GameObject particleSystemRight;
+    public GameObject particleSystemRain;
     //public Transform particleTransform;
 
     void Start()
@@ -95,6 +99,11 @@ public class WeatherEffects : MonoBehaviour
                 particleSystemLeft.SetActive(false);
                 particleSystemRight.SetActive(false);
             }
+
+            if(particleSystemRain == true)
+            {
+                particleSystemRain.SetActive(false);
+            }
             
             currentEffect = WeatherEffect.Neutral;
             weatherLength = 10f;
@@ -113,11 +122,16 @@ public class WeatherEffects : MonoBehaviour
             else if (randomInt == 1)
             {
                 currentEffect = WeatherEffect.Mosquitos;
+                ParticleSystem newMosquitos = Instantiate(mosquitosPrefab, transform); 
+                Mosquito newMosquito = newMosquitos.GetComponent<Mosquito>();
+                newMosquito.playerTransform = player.gameObject.transform;
+
                 weatherLength = resetReference;
                 
             }
             else if(randomInt == 2)
             {
+                particleSystemRain.SetActive(true);
                 currentEffect = WeatherEffect.Rainy;
                 weatherLength = resetReference;
                 
