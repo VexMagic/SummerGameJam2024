@@ -4877,11 +4877,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df7becb655104f4c86149605afd8440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEffect: 0
   weatherLength: 5
-  playerSprite: {fileID: 0}
   player: {fileID: 0}
   windStrength: 100
+  mosquitosPrefab: {fileID: 0}
+  particleSystemLeft: {fileID: 271464121868392830}
+  particleSystemRight: {fileID: 8638923223567071158}
+  particleSystemRain: {fileID: 5757555197548209233}
 --- !u!1 &5757555197548209233
 GameObject:
   m_ObjectHideFlags: 0
