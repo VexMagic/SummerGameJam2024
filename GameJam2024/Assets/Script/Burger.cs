@@ -5,6 +5,7 @@ using static UnityEditor.Progress;
 
 public class Burger : MonoBehaviour
 {
+    public bool isSupply;
     public bool hasBuns;
     public List<IngredientType> StartIngredients;
     public List<Ingredient> Contents;
@@ -52,22 +53,22 @@ public class Burger : MonoBehaviour
     public void Update()
     {
         // Debug code to test adding ingredients
-        if (Input.GetKeyDown(KeyCode.P))
-            AddIngredient(Patty);
+        //if (Input.GetKeyDown(KeyCode.P))
+        //    AddIngredient(Patty);
 
-        if (Input.GetKeyDown(KeyCode.K))
-            AddIngredient(Ketchup);
+        //if (Input.GetKeyDown(KeyCode.K))
+        //    AddIngredient(Ketchup);
 
-        if (Input.GetKeyDown(KeyCode.O))
-            AddIngredient(Onion);
+        //if (Input.GetKeyDown(KeyCode.O))
+        //    AddIngredient(Onion);
 
-        if (Input.GetKeyDown(KeyCode.L))
-            AddIngredient(Lettuce);
+        //if (Input.GetKeyDown(KeyCode.L))
+        //    AddIngredient(Lettuce);
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            AddBuns();
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    AddBuns();
+        //}
     }
 
     public void AddIngredient(GameObject ingredient, bool isStartState = false)
@@ -76,6 +77,8 @@ public class Burger : MonoBehaviour
         newIngredient.transform.localPosition = Vector3.zero;
         if (!isStartState)
             Contents.Add(newIngredient.GetComponent<Ingredient>());
+
+        newIngredient.SetActive(!isSupply);
         UpdateSprites();
     }
 
@@ -92,8 +95,8 @@ public class Burger : MonoBehaviour
     public void AddBuns()
     {
         hasBuns = true;
-        TopBun.gameObject.SetActive(true);
-        BottomBun.gameObject.SetActive(true);
+        TopBun.gameObject.SetActive(!isSupply);
+        BottomBun.gameObject.SetActive(!isSupply);
         UpdateSprites();
     }
 

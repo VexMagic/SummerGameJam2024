@@ -6,7 +6,7 @@ using UnityEngine;
 public class CustomerScript : MonoBehaviour
 {
     //ADD food reference for order
-    public float customerTimer = 15f;
+    public float customerTimer = 20f;
     bool receiveOrder = false;
 
     public GameObject exampleBurger;
@@ -95,7 +95,10 @@ public class CustomerScript : MonoBehaviour
                 AddIngredientsToBurger(new List<GameObject> { Patty, Patty, Lettuce });
                 break;
             case 3:
-                AddIngredientsToBurger(new List<GameObject> { Patty, Ketchup, Patty, Ketchup, Patty, Ketchup, Patty, Ketchup });
+                AddIngredientsToBurger(new List<GameObject> { Patty, Ketchup, Patty, Ketchup });
+                break;
+            case 4:
+                AddIngredientsToBurger(new List<GameObject> { Lettuce, Lettuce, Lettuce, Onion });
                 break;
 
         }

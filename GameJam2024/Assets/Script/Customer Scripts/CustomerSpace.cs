@@ -65,6 +65,7 @@ public class CustomerSpace : InteractionArea
             newCustomer.space = this;
             currentCustomer = newCustomer;
             state = states.occupied;
+            ProgressManager.instance.CreateBar(transform.position, newCustomer.customerTimer);
         }
         
     }
