@@ -24,9 +24,10 @@ public class ProgressBar : MonoBehaviour
     private void FixedUpdate()
     {
         if (paused)
-            return;
+            timer += Time.fixedDeltaTime / 2;
+        else
+            timer += Time.fixedDeltaTime;
 
-        timer += Time.fixedDeltaTime;
         float progress = timer / time;
         progressCircle.fillAmount = 1 - progress;
         if (alwaysGreen)

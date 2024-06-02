@@ -122,9 +122,13 @@ public class Grill : InteractionArea
                 progressBar.Pause(WeatherEffects.currentEffect == WeatherEffects.WeatherEffect.Rainy);
             }
 
-            if (holdingObject.Contents[0] is Patty && WeatherEffects.currentEffect != WeatherEffects.WeatherEffect.Rainy)
+            if (holdingObject.Contents[0] is Patty)
             {
-                (holdingObject.Contents[0] as Patty).Cook(Time.fixedDeltaTime / secondsToGrill);
+                if (WeatherEffects.currentEffect == WeatherEffects.WeatherEffect.Rainy)
+                    (holdingObject.Contents[0] as Patty).Cook(Time.fixedDeltaTime / secondsToGrill / 2);
+                else
+                    (holdingObject.Contents[0] as Patty).Cook(Time.fixedDeltaTime / secondsToGrill);
+
                 if (progressBar == null)
                     CreateProgressBar();
             }
