@@ -9,6 +9,7 @@ public class ProgressBar : MonoBehaviour
     private float time;
     private float timer;
     private bool alwaysGreen;
+    private bool paused;
 
     const float positionMultiplyer = 120f;
 
@@ -22,6 +23,9 @@ public class ProgressBar : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (paused)
+            return;
+
         timer += Time.fixedDeltaTime;
         float progress = timer / time;
         progressCircle.fillAmount = 1 - progress;
@@ -32,6 +36,11 @@ public class ProgressBar : MonoBehaviour
 
         if (timer >= time)
             Done();
+    }
+
+    public void Pause(bool isPaused)
+    {
+        paused = isPaused;
     }
 
     public void Done()

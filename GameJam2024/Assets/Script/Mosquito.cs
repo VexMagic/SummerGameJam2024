@@ -55,7 +55,7 @@ public class Mosquito : MonoBehaviour
         }
         else
         {
-            transform.position = PlayerMovement.instance.transform.position;   
+            transform.position = PlayerMovement.instance.transform.position;
         }
     }
 }

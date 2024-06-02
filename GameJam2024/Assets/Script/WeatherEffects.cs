@@ -118,6 +118,9 @@ public class WeatherEffects : MonoBehaviour
                 randomInt = UnityEngine.Random.Range(0, 3);
             } while (randomInt == previousWeather);
             previousWeather = randomInt;
+
+            randomInt = 2;
+
             if (randomInt == 0)
             {
                 RandomWindDirection();

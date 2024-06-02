@@ -117,7 +117,12 @@ public class Grill : InteractionArea
                 AudioSource.Play();
             }
 
-            if (holdingObject.Contents[0] is Patty)
+            if (progressBar != null)
+            {
+                progressBar.Pause(WeatherEffects.currentEffect == WeatherEffects.WeatherEffect.Rainy);
+            }
+
+            if (holdingObject.Contents[0] is Patty && WeatherEffects.currentEffect != WeatherEffects.WeatherEffect.Rainy)
             {
                 (holdingObject.Contents[0] as Patty).Cook(Time.fixedDeltaTime / secondsToGrill);
                 if (progressBar == null)
