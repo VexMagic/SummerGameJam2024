@@ -8,14 +8,16 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Image progressCircle;
     private float time;
     private float timer;
+    private bool alwaysGreen;
 
     const float positionMultiplyer = 120f;
 
-    public void SetPosition(Vector2 pos, float time, float startTime)
+    public void SetPosition(Vector2 pos, float time, float startTime, bool alwaysGreen)
     {
         transform.localPosition = pos * positionMultiplyer;
         timer = startTime;
         this.time = time;
+        this.alwaysGreen = alwaysGreen;
     }
 
     private void FixedUpdate()
@@ -23,7 +25,10 @@ public class ProgressBar : MonoBehaviour
         timer += Time.fixedDeltaTime;
         float progress = timer / time;
         progressCircle.fillAmount = 1 - progress;
-        progressCircle.color = new Color(progress, 1 - progress, 0);
+        if (alwaysGreen)
+            progressCircle.color = new Color(0, 1, 0);
+        else
+            progressCircle.color = new Color(progress, 1 - progress, 0);
 
         if (timer >= time)
             Done();

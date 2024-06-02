@@ -15,12 +15,12 @@ public class ProgressManager : MonoBehaviour
         instance = this;
     }
 
-    public ProgressBar CreateBar(Vector2 pos, float time, float startTime = 0)
+    public ProgressBar CreateBar(Vector2 pos, float time, float startTime = 0, bool alwaysGreen = false)
     {
         Debug.Log("bar");
         GameObject barObject = Instantiate(progressBar, transform);
         ProgressBar tempBar = barObject.GetComponent<ProgressBar>();
-        tempBar.SetPosition(pos, time, startTime);
+        tempBar.SetPosition(pos, time, startTime, alwaysGreen);
 
         barObjectList.Add(barObject);
         progressBarList.Add(tempBar);

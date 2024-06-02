@@ -10,6 +10,7 @@ public class Grill : InteractionArea
     [SerializeField] private float secondsToGrill;
     [SerializeField] AudioSource AudioSource;
     private ProgressBar progressBar;
+    private PattyState currentState;
 
     public override bool PlaceBurger()
     {
@@ -19,7 +20,9 @@ public class Grill : InteractionArea
             {
                 if (PlayerMovement.instance.GetCurrentBurger().Contents.Count == 1)
                 {
-                    return base.PlaceBurger();
+                    bool temp = base.PlaceBurger();
+                    CreateProgressBar();
+                    return temp;
                 }
                 else
                 {
@@ -29,6 +32,13 @@ public class Grill : InteractionArea
         }
         
         return false;
+    }
+
+    public override bool GrabBurger()
+    {
+        bool temp = base.GrabBurger();
+        RemoveProgressBar();
+        return temp;
     }
 
     public override bool CombineBurger()
@@ -41,12 +51,14 @@ public class Grill : InteractionArea
                 {
                     if (PlayerMovement.instance.GetCurrentBurger().Contents.Count == 1)
                     {
+                        RemoveProgressBar();
                         bool temp = base.SwapBurger();
                         CreateProgressBar();
                         return temp;
                     }
                     else
                     {
+                        RemoveProgressBar();
                         base.CombineBurger();
                         PlaceBottomPattyOnGrill();
                         return false;
@@ -55,6 +67,7 @@ public class Grill : InteractionArea
             }
         }
 
+        RemoveProgressBar();
         base.CombineBurger();
 
         return false;
@@ -75,7 +88,13 @@ public class Grill : InteractionArea
 
     private void CreateProgressBar()
     {
-        progressBar = ProgressManager.instance.CreateBar(transform.position, secondsToGrill, (holdingObject.Contents[0] as Patty).CookedProcentage * secondsToGrill);
+        //RemoveProgressBar();
+        currentState = (holdingObject.Contents[0] as Patty).State;
+        if (currentState == PattyState.Raw)
+            progressBar = ProgressManager.instance.CreateBar(transform.position - new Vector3(0, 0.5f), secondsToGrill, (holdingObject.Contents[0] as Patty).CookedProcentage * secondsToGrill, true);
+        else if (currentState == PattyState.Finished)
+            progressBar = ProgressManager.instance.CreateBar(transform.position - new Vector3(0, 0.5f), secondsToGrill, ((holdingObject.Contents[0] as Patty).CookedProcentage - 1) * secondsToGrill);
+
     }
 
     private void RemoveProgressBar()
@@ -101,6 +120,8 @@ public class Grill : InteractionArea
             if (holdingObject.Contents[0] is Patty)
             {
                 (holdingObject.Contents[0] as Patty).Cook(Time.fixedDeltaTime / secondsToGrill);
+                if (progressBar == null)
+                    CreateProgressBar();
             }
         }
 
