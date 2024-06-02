@@ -6,10 +6,11 @@ using UnityEngine;
 public class CustomerScript : MonoBehaviour
 {
     //ADD food reference for order
-    public float customerTimer = 20f;
+    public float customerTimer = 60f;
     bool receiveOrder = false;
 
     public GameObject exampleBurger;
+    public ProgressBar progressBar;
     private GameObject desiredBurger;
     private int randomNum;
     private Burger burger;
@@ -132,6 +133,7 @@ public class CustomerScript : MonoBehaviour
             if (space != null)
             {
                 space.CustomerLeaves();
+                progressBar.Done();
             }
             else
             {

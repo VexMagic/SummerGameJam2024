@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rBody;
     [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed;
+    [SerializeField] AudioSource AudioSource;
     //public Vector2 holdingOffset;
     public Vector2 leftOffset;
     public Vector2 rightOffset;
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        animator.SetBool("IsCarrying", true);
     }
 
     private void OnMove(InputValue value)
@@ -81,10 +83,15 @@ public class PlayerMovement : MonoBehaviour
                 if (interaction.PlaceBurger())
                 {
                     SetCurrentBurger(null);
-                    animator.SetBool("IsCarrying", false);
+                    //animator.SetBool("IsCarrying", false);
                 }
             }
         }
+    }
+
+    private void FootStep()
+    {
+        AudioSource.Play();
     }
 
     private InteractionArea GetClosestInteraction()
