@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -7,6 +8,7 @@ public class Grill : InteractionArea
 {
     [SerializeField] private GameObject burgerPrefab;
     [SerializeField] private float secondsToGrill;
+    [SerializeField] AudioSource AudioSource;
 
     public override bool PlaceBurger()
     {
@@ -71,10 +73,20 @@ public class Grill : InteractionArea
     {
         if (holdingObject != null)
         {
+            if (!AudioSource.isPlaying)
+            {
+                AudioSource.pitch = 1f + Random.Range(-0.1f,0.1f);
+
+                AudioSource.Play();
+            }
+
             if (holdingObject.Contents[0] is Patty)
             {
                 (holdingObject.Contents[0] as Patty).Cook(Time.fixedDeltaTime / secondsToGrill);
             }
         }
+
+        else if (AudioSource.isPlaying)
+            AudioSource.Stop();
     }
 }
