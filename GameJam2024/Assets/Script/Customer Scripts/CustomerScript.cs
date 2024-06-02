@@ -6,7 +6,7 @@ using UnityEngine;
 public class CustomerScript : MonoBehaviour
 {
     //ADD food reference for order
-    public float customerTimer = 60f;
+    public float customerTimer = 30f;
     bool receiveOrder = false;
 
     public GameObject exampleBurger;
@@ -41,7 +41,6 @@ public class CustomerScript : MonoBehaviour
 
     void Start()
     {
-        customerTimer = 15f;
         desiredBurger = Instantiate(exampleBurger, transform);
         desiredBurger.transform.localPosition = orderOffset;
         desiredBurger.SetActive(true);

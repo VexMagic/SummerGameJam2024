@@ -19,7 +19,7 @@ public class CustomerManager : MonoBehaviour
     {
         timerFloat -= Time.deltaTime;
 
-        if( timerFloat <= 0 )
+        if( timerFloat <= 0 && TimeManager.instance.CanSpawnCustomers())
         {
             timerFloat = 10f;
             SearchThroughSpaces();

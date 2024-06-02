@@ -10,6 +10,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI clock;
     float timer = 0f;
     [SerializeField] private int shiftHours;
+    [SerializeField] private float secondsPerHour;
 
     private void Awake()
     {
@@ -18,7 +19,15 @@ public class TimeManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        timer += Time.fixedDeltaTime;
+        if (CanSpawnCustomers())
+        {
+            timer += Time.fixedDeltaTime / secondsPerHour;
+            if (timer % 1 > 0.5f)
+                clock.text = ((int)timer + 10) + ":30";
+            else
+                clock.text = ((int)timer + 10) + ":00";
+        }
+
         if (!AreCustomersStillHere() && timer >= shiftHours)
         {
             SceneManager.LoadScene("EndOfDay");
@@ -36,5 +45,10 @@ public class TimeManager : MonoBehaviour
             }
         }
         return temp;
+    }
+
+    public bool CanSpawnCustomers()
+    {
+        return timer < shiftHours;
     }
 }
