@@ -9,6 +9,7 @@ public class Grill : InteractionArea
     [SerializeField] private GameObject burgerPrefab;
     [SerializeField] private float secondsToGrill;
     [SerializeField] AudioSource AudioSource;
+    private ProgressBar progressBar;
 
     public override bool PlaceBurger()
     {
@@ -40,7 +41,9 @@ public class Grill : InteractionArea
                 {
                     if (PlayerMovement.instance.GetCurrentBurger().Contents.Count == 1)
                     {
-                        return base.SwapBurger();
+                        bool temp = base.SwapBurger();
+                        CreateProgressBar();
+                        return temp;
                     }
                     else
                     {
@@ -63,10 +66,25 @@ public class Grill : InteractionArea
         holdingObject = tempObject.GetComponent<Burger>();
         holdingObject.AddIngredient(PlayerMovement.instance.GetCurrentBurger().Contents[0].gameObject);
         holdingObject.transform.localPosition = (Vector3)holdingOffset;
+        CreateProgressBar();
 
         Destroy(PlayerMovement.instance.GetCurrentBurger().Contents[0].gameObject);
         PlayerMovement.instance.GetCurrentBurger().Contents.RemoveAt(0);
         PlayerMovement.instance.GetCurrentBurger().UpdateSprites();
+    }
+
+    private void CreateProgressBar()
+    {
+        progressBar = ProgressManager.instance.CreateBar(transform.position, secondsToGrill, (holdingObject.Contents[0] as Patty).CookedProcentage * secondsToGrill);
+    }
+
+    private void RemoveProgressBar()
+    {
+        if (progressBar != null)
+        {
+            progressBar.Done();
+            progressBar = null;
+        }
     }
 
     private void FixedUpdate()
