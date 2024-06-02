@@ -32,6 +32,7 @@ public class CustomerScript : MonoBehaviour
     [SerializeField] List<Sprite> PossibleHats;
     [SerializeField] [Range(0f,1f)] float HatChance;
     [SerializeField] SpriteRenderer HatPosition;
+    [SerializeField] AudioSource HappyCustomer;
 
     const bool DictionaryDebug = false;
 
@@ -133,7 +134,7 @@ public class CustomerScript : MonoBehaviour
             {
                 Debug.LogError("NO SPACE WHEN RECEIVING ORDER");
             }
-            Destroy(gameObject);
+            StartCoroutine(PlaySound());
             return true;
         }
         return false;
@@ -203,5 +204,12 @@ public class CustomerScript : MonoBehaviour
         {
             Debug.LogError("Burger object is null.");
         }
+    }
+
+    IEnumerator PlaySound()
+    {
+        HappyCustomer.Play();
+        yield return new WaitUntil(() => !HappyCustomer.isPlaying);
+        Destroy(gameObject);
     }
 }
