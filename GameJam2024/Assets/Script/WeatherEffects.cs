@@ -19,13 +19,14 @@ public class WeatherEffects : MonoBehaviour
     public float windStrength = 2.5f;
     private float resetReference;
 
-    public GameObject particleSystem;
-    public Transform particleTransform;
+    public GameObject particleSystemLeft;
+    public GameObject particleSystemRight;
+    //public Transform particleTransform;
 
     void Start()
     {
         currentEffect = WeatherEffect.Neutral;
-        resetReference = 10f;
+        resetReference = weatherLength;
 
         
     }
@@ -89,9 +90,10 @@ public class WeatherEffects : MonoBehaviour
         //If the weather type is not Neutral (aka, rainy, windy or mosquito) then it returns to neutral
         if(currentEffect != WeatherEffect.Neutral)
         {
-            if(particleSystem == true)
+            if(particleSystemLeft.active == true || particleSystemRight.active == true)
             {
-                particleSystem.SetActive(false);
+                particleSystemLeft.SetActive(false);
+                particleSystemRight.SetActive(false);
             }
             
             currentEffect = WeatherEffect.Neutral;
@@ -104,7 +106,7 @@ public class WeatherEffects : MonoBehaviour
             if (randomInt == 0)
             {
                 RandomWindDirection();
-                particleSystem.SetActive(true);
+
                 currentEffect = WeatherEffect.Windy;
                 weatherLength = resetReference;
             }
@@ -133,12 +135,17 @@ public class WeatherEffects : MonoBehaviour
         if (direction == 0)
         {
             windDirection = Vector2.left;
-
+            particleSystemLeft.SetActive (true);
+            //particleTransform.position = new Vector3(15,0,0);
+            //particleTransform.localRotation = Quaternion.Euler(-180, 0, 0);   
             //Push player in one direction
         }
         else
         {
             windDirection = Vector2.right;
+            particleSystemRight.SetActive (true);
+            //particleTransform.position = new Vector3(-15, 0, 0);
+            //particleTransform.localRotation = Quaternion.Euler(0, 0, 0);
             //Push player in other direction
         }
     }
