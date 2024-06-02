@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     private bool leftBurger;
     Vector2 movement;
 
+    private float debuffModifier;
+    public bool debuff;
+
     private void Awake()
     {
         instance = this;
@@ -126,6 +129,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rBody.MovePosition(rBody.position + (movement * moveSpeed));
+        if (debuff)
+            rBody.MovePosition(rBody.position + (movement * moveSpeed* debuffModifier));
+        else
+            rBody.MovePosition(rBody.position + (movement * moveSpeed));
     }
 }
