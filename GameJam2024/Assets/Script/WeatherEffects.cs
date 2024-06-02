@@ -143,7 +143,7 @@ public class WeatherEffects : MonoBehaviour
     //Choose a random direction for the wind
     void RandomWindDirection()
     {
-        int direction = UnityEngine.Random.Range(0, 1);
+        int direction = UnityEngine.Random.Range(0, 2);
         //int plusMinus = UnityEngine.Random.Range(0, 1);
 
         if (direction == 0)
